@@ -34,7 +34,7 @@ oauth.register(
 @app.route("/")
 def home():
     return render_template(
-        "home.html",
+        "Login.html",
         session=session.get("user"),
         pretty=json.dumps(session.get("user"), indent=4),
     )
