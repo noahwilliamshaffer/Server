@@ -44,7 +44,7 @@ def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
     print("user")
-    return render_template("news.html")
+    return redirect("/")
    #return render_template for news.html insted of call back so that the user is logged into the news page
    # return redirect(("/")+ render_template("news.html")) 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
