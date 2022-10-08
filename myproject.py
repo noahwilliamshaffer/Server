@@ -44,11 +44,13 @@ def home():
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+    flash("You have been logged in succsefully!", "info")
     return redirect("/")
 
 
 @app.route("/login")
 def login():
+    flash("You have been logged in succsefully!", "info")
     return oauth.auth0.authorize_redirect(
         redirect_uri=url_for("callback", _external=True)
     )
@@ -57,6 +59,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
+    flash("You have been logged out!", "info")
     return redirect(
         "https://"
         + env.get("AUTH0_DOMAIN")
