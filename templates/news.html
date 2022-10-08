@@ -1,3 +1,12 @@
+{% extends "base.html" %}
+{% block title %} Login{%EndOfBlock}
+{% Block Content %}
+{% with messages = get_flash_messages() %}
+{% if messages %}
+{%for msg in messages %}
+<p>{{msg}}</p>
+{% endif %}
+{% endwith %}
 <!DOCTYPE html>
 <!--latest update 09/29/22-->
 <html lang="en-US">
