@@ -5,6 +5,7 @@ import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
 from datetime import timedelta
+import sqlalchemy
 
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
