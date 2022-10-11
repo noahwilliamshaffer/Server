@@ -1,5 +1,5 @@
 # 📁 server.py -----
-
+import http.client
 import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
@@ -69,6 +69,28 @@ def logout():
 def home():
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 # 👆 We're continuing from the steps above. Append this to your server.py file.
+@app.route("/news")
+def api():
+    #return render_template("news.html")
+    
+    #are we sure this is supposed to be client?
+    #class http.client.HTTPConnection(host, port=None, [timeout, ]source_address=None, blocksize=8192)¶
+    conn = http.client.HTTPSConnection("hacker-news.firebaseio.com")
+	
+    payload = "{}"
+	
+    #HTTPConnection.request(method, url, body=None, headers={}, *, encode_chunked=False)
+    #try this without payload parameter
+    #show marlee definition for body param that we are sending the payload into 
+    conn.request("GET", "/v0/topstories.json?print=pretty",payload)
+    
+    #Should be called after a request is sent to get the response from the server. 
+    res = conn.getresponse()
+	
+    #Reads and returns the response body, or up to the next amt bytes.
+    data = res.read()
+	
+    print(data.decode("utf-8"))
 
 if __name__ == "__main__":
     app.run(debug = True)
