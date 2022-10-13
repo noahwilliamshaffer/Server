@@ -16,9 +16,10 @@
 
 	
 	<h1>Welcome {{session.userinfo.name}}!</h1>
-   	      {% for link in link_titles %}
-   	        <h3>{{link}}</h2>
-       		 {% endfor%}
+   	      
+	     {% for link in link_string%}
+		<a href="{{link_url}}">{{link_titles}}</a>&nbsp;&nbsp;
+       	 	 {% endfor%}
       </nav>
   </header>
   <div id="contactform">
