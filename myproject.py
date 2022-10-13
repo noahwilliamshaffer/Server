@@ -76,11 +76,13 @@ def show_top_ten():
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     )
     link_titles = []
+    link_url = []
     for x in range(0, 10):
         link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
         link = requests.get(link_string).json()
         link_titles.append(link["title"])
-    return render_template("news.html", link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+        link_url.append(link["url"])
+    return render_template("news.html",link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route("/oldnews")
 
