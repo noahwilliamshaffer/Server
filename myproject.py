@@ -1,4 +1,5 @@
 # 📁 server.py -----
+import requests
 import http.client
 import json
 from os import environ as env
@@ -70,6 +71,19 @@ def home():
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
+def show_top_ten():
+    response = requests.get(
+        "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+    )
+    link_titles = []
+    for x in range(0, 10):
+        link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
+        link = requests.get(link_string).json()
+        link_titles.append(link["title"])
+    return render_template("news.html", link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+@app.route("/oldnews")
+
 def api():
     #return render_template("news.html")
     
