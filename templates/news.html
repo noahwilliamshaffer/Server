@@ -13,9 +13,16 @@
         <img id="logo" src="Images/LogoMK.jpg" width="170" height="85"> &nbsp;&nbsp;
         <a href="news.html">Refresh Page</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
+
+	
+	<h1>Welcome {{session.userinfo.name}}!</h1>
+   	      {% for link in link_titles %}
+   	        <h3>{{link}}</h2>
+       		 {% endfor%}
       </nav>
   </header>
   <div id="contactform">
 <h1> HackerNews login</h1>
 </div>
 </body>
+</html>
