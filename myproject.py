@@ -1,4 +1,5 @@
 # 📁 server.py -----
+import sqlite3
 import requests
 import http.client
 import json
