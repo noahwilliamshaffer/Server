@@ -75,8 +75,8 @@ def show_top_ten():
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     )
-    link_titles = []
-    link_url = []
+    link_titles = []    #the emptylist for titles
+    link_url = []       #the empty list for url's of hackernews
     for x in range(0, 10):
         link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
         link = requests.get(link_string).json()
