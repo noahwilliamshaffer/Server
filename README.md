@@ -27,7 +27,7 @@ Within a particular ecosystem, there may be a common way of installing things, s
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
 ## Support
-for makeing the nginux and gunicorn server using a flask app on digital oceans use:
+for making the nginux and gunicorn server using a flask app on digital oceans use:
 https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-22-04
 
 for making a auth0 login use:
