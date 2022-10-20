@@ -1,6 +1,6 @@
 # How the command curl noahwilliamshaffer.com works
 
-We call the curl command on our domain and it sends a synchronized tcp/ip request to the dns to get our servers IP. Then nginx will accept and send a response. If the server is udp then this becomes a connectionless protocol. The packets are initially sent on port 80. Then our nginx.conf will reroute the port to 443. Certbot changed niginx.conf to do this.  Now our domain that was initially on port 80 with the prefix HTTP will now be on port 443 with the prefix HTTPS. The curl request retrieves the html from the server. 
+We call the curl command on our domain and it sends a synchronized tcp/ip request to the dns to get our servers IP. Then nginx will accept and send a response. If the server is udp then this becomes a connectionless protocol. The packets are initially sent on port 80. Then our nginx.conf will reroute the port to 443. Certbot changed niginx.conf to do this.  Now our domain that was initially on port 80 with the prefix HTTP will now be on port 443 with the prefix HTTPS. Gunicorn binds flask to nginx using the sock file it created. This is done so nginx can send the flask app back. The flask app works with the html files in the templates folder. That is the html that the curl request retrieves. 
 
 ![image.png](./image.png)
 ![image-1.png](./image-1.png)
