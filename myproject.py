@@ -71,17 +71,21 @@ def home():
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
+#Define function for top ten articles
 def show_top_ten():
+    #response is the .json taken from the hacker news
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     )
     link_titles = []    #the emptylist for titles
     link_url = []       #the empty list for url's of hackernews
+    #for loop that loops through the ten articles and prints the x title over the x link
     for x in range(0, 10):
         link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
         link = requests.get(link_string).json()
         link_titles.append(link["title"])
         link_url.append(link["url"])
+        #makes the variables available in the html file that this route points to
     return render_template("news.html",link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route("/oldnews")
