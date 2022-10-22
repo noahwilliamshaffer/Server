@@ -1,7 +1,7 @@
-nws17
-mmk20a
+Noah Fsu Id: nws17
+Marlee Fsu Id: mmk20a
 CourseNumber:Cop4342-0001
-GroupNumber:
+GroupNumber: 14
 
 # How the command curl noahwilliamshaffer.com works
 
