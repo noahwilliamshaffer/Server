@@ -30,8 +30,24 @@ oauth.register(
         "scope": "openid profile email",
     },
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
+
 )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
+
+#get_db_connection is used to make a connection to the database to be able to pull data
+#THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+#the index function contains the way to call the html file that will be using the data being heald in our database ex
+#APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
+@app.route('/database')
+def index():
+    conn = get_db_connection()
+    posts = conn.execute('SELECT * FROM posts').fetchall()
+    conn.close()
+    return render_template('index.html', posts=posts)
 
 @app.route("/login")
 def login():
@@ -72,17 +88,21 @@ def home():
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
+#Define function for top ten articles
 def show_top_ten():
+    #response is the .json taken from the hacker news
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     )
     link_titles = []    #the emptylist for titles
     link_url = []       #the empty list for url's of hackernews
+    #for loop that loops through the ten articles and prints the x title over the x link
     for x in range(0, 10):
         link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
         link = requests.get(link_string).json()
         link_titles.append(link["title"])
         link_url.append(link["url"])
+        #makes the variables available in the html file that this route points to
     return render_template("news.html",link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route("/oldnews")
