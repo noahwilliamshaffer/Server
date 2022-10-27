@@ -16,10 +16,22 @@ For security we will white list our ip addresses, not only from our ufw, but als
 
 
 ## Name
-Choose a self-explaining name for your project.
+Hacker News Server
 
 ## Description
 Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Flask - Microframework for UBUNTU
+Nginx - Acts as a proxy to increase secruity
+Gunicorn - Python Web Server Gateway Interface HTTP server
+Auth0 - Provides login functionality and is responsible for holding user data 
+Flask API -
+
+Using the flask framework we set an application server using 
+Gunicorn and how to launch the application. We then configure
+Nginx to act as a front-end reverse proxy. Upon entering the website
+and clicking login the user is then handed off to Auth0 which holds
+and verifys the users credentials. Upon entering the website, the user
+will see news articles pulled from websites.
 
 ## Badges
 On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.

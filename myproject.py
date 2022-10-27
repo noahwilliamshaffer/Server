@@ -5,6 +5,8 @@ import http.client
 import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
+from datetime import timedelta
+from flask_sqlalchemy import qlalchemy
 
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
@@ -70,6 +72,7 @@ def callback():
 @app.route("/logout")
 def logout():
     session.clear()
+    flash("You have been logged out!", "info")
     return redirect(
         "https://" + env.get("AUTH0_DOMAIN")
         + "/v2/logout?"
