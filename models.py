@@ -3,6 +3,7 @@ from . import db
 from flask_login import userMixin
 from sqlaclhemy.sql import func
 
+#this is relevent when we add likes and comments
 #we need font awesome for incons for likes
 
 class User.(db.Model, UserMixin):
