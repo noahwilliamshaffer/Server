@@ -30,8 +30,24 @@ oauth.register(
         "scope": "openid profile email",
     },
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
+
 )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
+
+#get_db_connection is used to make a connection to the database to be able to pull data
+#THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+#the index function contains the way to call the html file that will be using the data being heald in our database ex
+#APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
+@app.route('/database')
+def index():
+    conn = get_db_connection()
+    posts = conn.execute('SELECT * FROM posts').fetchall()
+    conn.close()
+    return render_template('index.html', posts=posts)
 
 @app.route("/login")
 def login():
