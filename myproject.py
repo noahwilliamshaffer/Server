@@ -89,41 +89,21 @@ def home():
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
 #Define function for top ten articles
-
-    connection = sqlite3.connect("database.db")
-    
-    #not sure if you can do this might be able to do this with just cur
-    cur = connection.cursor()#cur for titles
-    cur2 = connection.cursor()
-
-    cur.execute("SELECT title FROM Articles")
-    titles = cur.fetchall()
-
-    cur2.execute("SELECT url FROM Articles")
-    urls = cur2.fetchall()
-
-
-
-    
-    #cur2.execute("SELECT url FROM Articles")
-    #urls = cur2.fetchall() 
-
-
-    render_template('news.html', titles=titles, urls = urls)
-
-#    close cur
- #   deallocate cur
- #   close cur2
-  #  deallocate curl2
-
-    #makes the variables available in the html file that this route points to
-
-    #get rid of this and store the data pulled from the site into the database instead of directly to html file
-    #the html file will be populated by the database instead
-    #this route ---> database ---> html file
-
-    #pull from the database here
-    #send results to render template
+def show_top_ten():
+    #response is the .json taken from the hacker news
+    response = requests.get(
+        "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+    )
+    link_titles = []    #the emptylist for titles
+    link_url = []       #the empty list for url's of hackernews
+    #for loop that loops through the ten articles and prints the x title over the x link
+    for x in range(0, 10):
+        link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
+        link = requests.get(link_string).json()
+        link_titles.append(link["title"])
+        link_url.append(link["url"])
+        #makes the variables available in the html file that this route points to
+    return render_template("news.html",link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route("/oldnews")
 
