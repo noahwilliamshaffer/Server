@@ -135,10 +135,10 @@ def show_top_ten():
     #    connection.executescript(f.read())
     #    cur = connection.cursor()
     conn = get_db_connection()
-    Arts = conn.execute('SELECT *  FROM Art').fetchall()
+    titles = conn.execute('SELECT title  FROM Art').fetchall()
     conn.close()
         #makes the variables available in the html file that this route points to
-    return render_template("news.html",Arts = Arts, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    return render_template("news.html",titles = titles, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 #In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
 #GET requests are used to retrieve data from the server.
