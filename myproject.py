@@ -55,25 +55,24 @@ def FillDataBase():
         link = requests.get(link_string).json()
         link_titles.append(link["title"])
         link_url.append(link["url"])
-#con = get_db_connection()
-connection = sqlite3.connect('database.db')
+    #con = get_db_connection()
+    connection = sqlite3.connect('database.db')
 
-#do we do this one or sqlite3.Row???
-with open('schema.sql') as f:
-    connection.executescript(f.read())
+    #do we do this one or sqlite3.Row???
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+        cur = connection.cursor()
 
-cur = connection.cursor()
-
-for x in range(0, 10):
-    cur.execute("INSERT INTO Art (title, url) VALUES (?, ?)",
-            ('link_titles[x]', 'link_urls[x]')
+    for x in range(0, 10):
+        cur.execute("INSERT INTO Art (title, url) VALUES (?, ?)",
+        ('link_titles[x]', 'link_url[x]')
             )
 
-connection.commit()
-connection.close()
+    connection.commit()
+    connection.close()
 
 
-
+FillDataBase()
 
 
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
@@ -122,7 +121,7 @@ def logout():
 @app.route("/")
 def home():
     #call fill database upon entry into home page
-    fillDataBase()
+    #fillDataBase()
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
