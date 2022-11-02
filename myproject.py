@@ -45,7 +45,7 @@ def get_db_connection():
 @app.route('/database')
 def index():
     conn = get_db_connection()
-    posts = conn.execute('SELECT * FROM posts').fetchall()
+    posts = conn.execute('SELECT * FROM Art').fetchall()
     conn.close()
     return render_template('database.html', posts=posts)
 
@@ -89,6 +89,9 @@ def home():
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
 #Define function for top ten articles
+    conn = get_db_connection()
+    Art = conn.execute('SELECT * FROM Art').fetchall()
+    conn.close()
 def show_top_ten():
     #response is the .json taken from the hacker news
     response = requests.get(
@@ -103,7 +106,7 @@ def show_top_ten():
         link_titles.append(link["title"])
         link_url.append(link["url"])
         #makes the variables available in the html file that this route points to
-    return render_template("news.html",link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    return render_template("news.html",Art = Art,link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 #In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
 #GET requests are used to retrieve data from the server.

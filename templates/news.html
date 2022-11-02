@@ -17,15 +17,19 @@
 
 	
 	<h1>Welcome {{session.userinfo.name}}!</h1>
-   	      
-	     {% for x in range(0,10)%}
-     		<h3><a href="{{link_url[x]}}">{{link_titles[x]}}</a><h3>
-       	 	 {% endfor%}
+	
+	<h1>{% block title %} Posts {% endblock %}</h1>
+    {% for A in Art %}
+        <div class='A'>
+            <h2>{{ A['title'] }}</h2>
+            <p>{{ A['url'] }}</p>
+        </div>
+    {% endfor %}
       </nav>
   </header>
   <div id="contactform">
 <h1> HackerNews login</h1>
- <a href="database.html">Database</a> &nbsp;&nbsp;
+<a href="database.html">Database</a> &nbsp;&nbsp;
 </div>
 </body>
 </html>
