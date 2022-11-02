@@ -17,8 +17,11 @@
 
 	
 	<h1>Welcome {{session.userinfo.name}}!</h1>
-	
-	<h1>{% block title %} Posts {% endblock %}</h1>
+	{% for x in range(0,10)%}
+		<h3>{{titles[x]}}</a><h3>
+       	 	 {% endfor%}
+      </nav>
+
    
       </nav>
   </header>
