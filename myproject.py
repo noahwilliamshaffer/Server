@@ -43,6 +43,25 @@ def get_db_connection():
    # conn.row_factory = sqlite3.Row
     return conn
 
+#should be called everytime a user likes a post
+def FillUserId():
+    connection = sqlite3.connect('userId.db')
+
+    #do we do this one or sqlite3.Row???
+    #with open('userSchema.sql') as b:
+     #   connection.executescript(b.read())
+      #  cur = connection.cursor()
+
+    #for x in range(0, 10):
+     #   cur.execute("INSERT INTO UserId (name, id) VALUES (?, ?)",
+      #  ('name', 'id')
+       #     )
+
+   # connection.commit()
+   # connection.close()
+
+FillUserId()
+
 def FillDataBase():
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
