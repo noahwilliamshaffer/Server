@@ -47,7 +47,7 @@ def index():
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
     conn.close()
-    return render_template('index.html', posts=posts)
+    return render_template('database.html', posts=posts)
 
 @app.route("/login")
 def login():
@@ -105,11 +105,23 @@ def show_top_ten():
         #makes the variables available in the html file that this route points to
     return render_template("news.html",link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
+#In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
+#GET requests are used to retrieve data from the server.
+#POST requests are used to post data to a specific route. 
+#By default, only GET requests are allowed.
+#When the user first requests the /create route using a GET request, a template file called create.html will be rendered.
+#You will later edit this route to handle POST requests for when users fill and submit the web form for creating new posts.
+#this is where we we pull from the database
+
+
+@app.route('/create/', methods=('GET', 'POST'))
+def create():
+    return render_template('create.html')
+
+
 @app.route("/oldnews")
 
-def api():
-    #return render_template("news.html")
-    
+def api(): 
     #are we sure this is supposed to be client?
     #class http.client.HTTPConnection(host, port=None, [timeout, ]source_address=None, blocksize=8192)¶
     conn = http.client.HTTPSConnection("hacker-news.firebaseio.com")
