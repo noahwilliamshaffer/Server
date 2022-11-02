@@ -38,8 +38,42 @@ oauth.register(
 #THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
 def get_db_connection():
     conn = sqlite3.connect('database.db')
+
+    #do we do this one or use our schema???
     conn.row_factory = sqlite3.Row
     return conn
+
+def FillDataBase():
+    response = requests.get(
+        "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+    )
+    link_titles = []    #the emptylist for titles
+    link_url = []       #the empty list for url's of hackernews
+    #for loop that loops through the ten articles and prints the x title over the x link
+    for x in range(0, 10):
+        link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
+        link = requests.get(link_string).json()
+        link_titles.append(link["title"])
+        link_url.append(link["url"])
+
+#con = get_db_connection()
+connection = sqlite3.connect('database.db')
+
+#do we do this one or sqlite3.Row???
+with open('schema.sql') as f:
+    connection.executescript(f.read())
+
+cur = connection.cursor()
+
+for x in range(0, 10):
+cur.execute("INSERT INTO Art (title, url) VALUES (?, ?)",
+            ('link_titles[x]', 'link_urls[x]')
+            )
+connection.commit()
+connection.close()
+
+
+
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
 #APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route('/database')
