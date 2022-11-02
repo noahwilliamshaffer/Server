@@ -61,7 +61,23 @@ def FillUserId():
     connection.close()
 
 FillUserId()
+def FillLikedArt():
+    connection = sqlite3.connect('likedArticles.db')
 
+    #do we do this one or sqlite3.Row???
+    with open('artSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
+
+    for x in range(0, 10):
+        cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
+        ('title', 'url')
+            )
+
+    connection.commit()
+    connection.close()
+
+FillLikedArt()
 def FillDataBase():
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
