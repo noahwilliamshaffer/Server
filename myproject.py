@@ -41,7 +41,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
-#APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
+APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route('/database')
 def index():
     conn = get_db_connection()
