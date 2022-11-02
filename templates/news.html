@@ -19,12 +19,7 @@
 	<h1>Welcome {{session.userinfo.name}}!</h1>
 	
 	<h1>{% block title %} Posts {% endblock %}</h1>
-    {% for A in Art %}
-        <div class='A'>
-            <h2>{{ A['title'] }}</h2>
-            <p>{{ A['url'] }}</p>
-        </div>
-    {% endfor %}
+   
       </nav>
   </header>
   <div id="contactform">
