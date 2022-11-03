@@ -85,7 +85,7 @@ def FillDataBase():
     link_titles = []    #the emptylist for titles
     link_url = []       #the empty list for url's of hackernews
     #for loop that loops through the ten articles and prints the x title over the x link
-    for x in range(0, 10):
+    for x in range(0, 30):
         link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
         link = requests.get(link_string).json()
         link_titles.append(link["title"])
@@ -98,7 +98,7 @@ def FillDataBase():
         connection.executescript(f.read())
         cur = connection.cursor()
 
-    for x in range(0, 10):
+    for x in range(0, 30):
         cur.execute("INSERT INTO Art (title, url) VALUES (?, ?)",
         (link_titles[x], link_url[x])
             )
