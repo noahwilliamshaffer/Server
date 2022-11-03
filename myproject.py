@@ -53,8 +53,8 @@ def FillUserId():
         cur = connection.cursor()
 
     for x in range(0, 10):
-        cur.execute("INSERT INTO UserId (name, id) VALUES (?, ?)",
-        ('name', 'id')
+        cur.execute("INSERT INTO UserId (name, email) VALUES (?, ?)",
+        ('name', 'email')
             )
 
     connection.commit()
@@ -62,6 +62,7 @@ def FillUserId():
 
 FillUserId()
 def FillLikedArt():
+    #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
 
     #do we do this one or sqlite3.Row???
