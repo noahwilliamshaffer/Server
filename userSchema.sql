@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS UserId;
 
 CREATE TABLE UserId (
-    id INTEGER Not Null,
+    email TEXT Not Null,
     name TEXT NOT NULL
 );
