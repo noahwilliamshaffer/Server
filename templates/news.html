@@ -17,6 +17,7 @@
 
 	
 	<h1>Welcome {{session.userinfo.name}}!</h1>
+	 <h1>Welcome {{session.userinfo.email}}!</h1>
 	{% for x in range(0,30)%}
 		<h3><a href="{{urls_arr[x]}}">{{titles_arr[x]}}</a><h3>
        	 	 {% endfor%}
