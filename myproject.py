@@ -44,41 +44,41 @@ def get_db_connection():
     return conn
 
 #should be called everytime a user likes a post
-def FillUserId():
-    connection = sqlite3.connect('userId.db')
+#def FillUserId():
+ #   connection = sqlite3.connect('userId.db')
 
     #do we do this one or sqlite3.Row???
-    with open('userSchema.sql') as b:
-        connection.executescript(b.read())
-        cur = connection.cursor()
+  #  with open('userSchema.sql') as b:
+   #     connection.executescript(b.read())
+    #    cur = connection.cursor()
 
-    for x in range(0, 10):
-        cur.execute("INSERT INTO UserId (name, email) VALUES (?, ?)",
-        ('name', 'email')
-            )
+    #for x in range(0, 10):
+     #   cur.execute("INSERT INTO UserId (name, email) VALUES (?, ?)",
+      #  ('name', 'email')
+       #     )
 
-    connection.commit()
-    connection.close()
+   # connection.commit()
+   # connection.close()
 
-FillUserId()
-def FillLikedArt():
+#FillUserId()
+#def FillLikedArt():
     #liked articles unique to each user
-    connection = sqlite3.connect('likedArticles.db')
+ #   connection = sqlite3.connect('likedArticles.db')
 
     #do we do this one or sqlite3.Row???
-    with open('artSchema.sql') as b:
-        connection.executescript(b.read())
-        cur = connection.cursor()
+  #  with open('artSchema.sql') as b:
+   #     connection.executescript(b.read())
+    #    cur = connection.cursor()
 
-    for x in range(0, 10):
-        cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
-        ('title', 'url')
-            )
+    #for x in range(0, 10):
+     #   cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
+      #  ('title', 'url')
+       #     )
 
-    connection.commit()
-    connection.close()
+#    connection.commit()
+ #   connection.close()
 
-FillLikedArt()
+#FillLikedArt()
 def FillDataBase():
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
@@ -91,7 +91,7 @@ def FillDataBase():
         link = requests.get(link_string).json()
         link_titles.append(link["title"])
         link_url.append(link["url"])
-    #con = get_db_connection()
+    con = get_db_connection()
     connection = sqlite3.connect('database.db')
 
     #do we do this one or sqlite3.Row???
@@ -108,7 +108,7 @@ def FillDataBase():
     connection.close()
 
 
-FillDataBase()
+#FillDataBase()
 
 
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
@@ -177,11 +177,13 @@ def show_top_ten():
     urls = conn.execute('SELECT url  FROM Art').fetchall()
     conn.close()
 
-    for row in titles:
-        titles_arr.append(row[x])
+    titles_arr = [i[0] for i in titles]
+    urls_arr = [i[0] for i in urls]
+    #for row in titles:
+     #   titles_arr.append(row[x])
 
-    for row in urls:
-        urls_arr.append(row[y])
+    #for row in urls:
+     #   urls_arr.append(row[y])
 
         #makes the variables available in the html file that this route points to
     return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
