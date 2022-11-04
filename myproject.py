@@ -49,7 +49,7 @@ def FillUser():
 
     headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
 
-    #conn.request("GET", "/noahwilliamshaffer/api/v2/users/%7BuserId%7D", headers=headers)
+    conn.request("GET", "/var/www/noahwilliamshaffer.com/api/v2/users/%7BuserId%7D", headers=headers)
 
     #res = conn.getresponse()
     #data = res.read()
