@@ -44,13 +44,13 @@ def get_db_connection():
     return conn
 
 #should be called everytime a user likes a post
-#def FillUserId():
- #   connection = sqlite3.connect('userId.db')
+def FillUser():
+    connection = sqlite3.connect('likedArticles.db')
 
     #do we do this one or sqlite3.Row???
-  #  with open('userSchema.sql') as b:
-   #     connection.executescript(b.read())
-    #    cur = connection.cursor()
+    with open('artSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
 
     #for x in range(0, 10):
      #   cur.execute("INSERT INTO UserId (name, email) VALUES (?, ?)",
@@ -60,15 +60,15 @@ def get_db_connection():
    # connection.commit()
    # connection.close()
 
-#FillUserId()
-#def FillLikedArt():
+FillUser()
+def FillLikedArt():
     #liked articles unique to each user
- #   connection = sqlite3.connect('likedArticles.db')
+    connection = sqlite3.connect('likedArticles.db')
 
     #do we do this one or sqlite3.Row???
-  #  with open('artSchema.sql') as b:
-   #     connection.executescript(b.read())
-    #    cur = connection.cursor()
+    with open('artSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
 
     #for x in range(0, 10):
      #   cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
