@@ -44,32 +44,33 @@ def get_db_connection():
     return conn
 
 #should be called everytime a user likes a post
-def FillUser():
-    conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
+def FillUser(name,  email):
+    #conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
 
-    headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
+    #headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
 
-    conn.request("GET", "/var/www/noahwilliamshaffer.com/api/v2/users/%7BuserId%7D", headers=headers)
+    #conn.request("GET", "/var/www/noahwilliamshaffer.com/api/v2/users/%7BuserId%7D", headers=headers)
 
     #res = conn.getresponse()
     #data = res.read()
-
+    #dictionary = dir(res)    
+    #decodedData = data.decode("utf-8")
+    #name = session.userinfo.name
     connection = sqlite3.connect('likedArticles.db')
-
+    #EMAIL = decodedData.get('email')
     #do we do this one or sqlite3.Row???
     with open('artSchema.sql') as b:
         connection.executescript(b.read())
         cur = connection.cursor()
 
         cur.execute("INSERT OR IGNORE INTO users(name, email) VALUES (?, ?)",
-        ('name', 'emails')
+        (name, email)
             )
 
     connection.commit()
     connection.close()
 
-FillUser()
-def FillLikedArt():
+def FillLikedArt(email, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
 
@@ -77,6 +78,13 @@ def FillLikedArt():
     with open('artSchema.sql') as b:
         connection.executescript(b.read())
         cur = connection.cursor()
+
+
+    cur.execute("INSERT OR INGNORE INTO likedArt (User_Id,title,url) VALUES (?, ?)",
+            (email, title, url)
+            )
+    connection.commit()
+    connection.close()
 
     #for x in range(0, 10):
      #   cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
@@ -166,7 +174,13 @@ def logout():
 def home():
     #call fill database upon entry into home page
     #fillDataBase()
+    #session = session.get('user')
+    #pretty=json.dumps(session.get('user')
+   # name = session.userinfo.name
+    #email = info.userinfo.email
+    #FillUser(name, email)
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
 #Define function for top ten articles
