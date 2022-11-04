@@ -1,9 +1,8 @@
-CREATE TABLE users
+CREATE TABLE if not exists users
    (email TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    email, TEXT NOT NULL);
+    name TEXT NOT NULL);
 
-CREATE TABLE likedArt
+CREATE TABLE if not exists likedArt
    (title TEXT NOT NULL,
     url TEXT NOT NULL,
     FOREIGN KEY (email) REFERENCES users
