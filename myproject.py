@@ -45,6 +45,15 @@ def get_db_connection():
 
 #should be called everytime a user likes a post
 def FillUser():
+    #conn = http.client.HTTPSConnection("")
+
+    #headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
+
+    #conn.request("GET", "/YOUR_DOMAIN/api/v2/users/%7BuserId%7D", headers=headers)
+
+    #res = conn.getresponse()
+    #data = res.read()
+
     connection = sqlite3.connect('likedArticles.db')
 
     #do we do this one or sqlite3.Row???
@@ -52,13 +61,12 @@ def FillUser():
         connection.executescript(b.read())
         cur = connection.cursor()
 
-    #for x in range(0, 10):
-     #   cur.execute("INSERT INTO UserId (name, email) VALUES (?, ?)",
-      #  ('name', 'email')
-       #     )
+        cur.execute("INSERT OR IGNORE INTO users(name, email) VALUES (?, ?)",
+        ('name', 'emails')
+            )
 
-   # connection.commit()
-   # connection.close()
+    connection.commit()
+    connection.close()
 
 FillUser()
 def FillLikedArt():
