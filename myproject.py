@@ -45,11 +45,11 @@ def get_db_connection():
 
 #should be called everytime a user likes a post
 def FillUser():
-    #conn = http.client.HTTPSConnection("")
+    conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
 
-    #headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
+    headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
 
-    #conn.request("GET", "/YOUR_DOMAIN/api/v2/users/%7BuserId%7D", headers=headers)
+    #conn.request("GET", "/noahwilliamshaffer/api/v2/users/%7BuserId%7D", headers=headers)
 
     #res = conn.getresponse()
     #data = res.read()
