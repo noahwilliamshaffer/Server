@@ -170,8 +170,16 @@ def logout():
     )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
-@app.route("/") #Add a post request
+@app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
+    #if request.method == "POST":
+       # getting input with name = fname in HTML form
+     #  first_name = request.form.get("fname")
+       # getting input with name = lname in HTML form
+      # last_name = request.form.get("lname")
+      # return "Your name is "+first_name + last_name
+
+
     #call fill database upon entry into home page
     #fillDataBase()
     #session = session.get('user')
