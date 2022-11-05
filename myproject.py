@@ -170,7 +170,7 @@ def logout():
     )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
-@app.route("/")
+@app.route("/") #Add a post request
 def home():
     #call fill database upon entry into home page
     #fillDataBase()
