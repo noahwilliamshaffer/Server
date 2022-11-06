@@ -1,0 +1,43 @@
+Available applications:
+  Nginx Full
+  Nginx HTTP
+  Nginx HTTPS
+  OpenSSH
+  Postfix
+  Postfix SMTPS
+  Postfix Submission
+
+Status: active
+
+To                         Action      From
+--                         ------      ----
+Nginx Full                 ALLOW       Anywhere                  
+80/tcp                     ALLOW       Anywhere                  
+22                         ALLOW       128.186.122.109           
+22                         ALLOW       128.186.122.110           
+22                         ALLOW       128.186.122.108           
+22                         ALLOW       128.186.122.107           
+22                         ALLOW       128.186.122.106           
+22                         ALLOW       128.186.122.105           
+22                         ALLOW       128.186.122.104           
+22                         ALLOW       128.186.122.103           
+443                        ALLOW       Anywhere                  
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+Nginx Full (v6)            ALLOW       Anywhere (v6)             
+443 (v6)                   ALLOW       Anywhere (v6)             
+
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset:>
+     Active: active (running) since Sat 2022-11-05 21:14:50 UTC; 3h 40min ago
+       Docs: man:nginx(8)
+   Main PID: 31491 (nginx)
+      Tasks: 2 (limit: 512)
+     Memory: 8.3M
+        CPU: 296ms
+     CGroup: /system.slice/nginx.service
+             ├─31491 "nginx: master process /usr/sbin/nginx -g daemon on; maste>
+             └─31494 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" ">
+
+True location:
+
+/usr/sbin/nginx 
