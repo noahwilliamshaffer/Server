@@ -1,0 +1,162 @@
+Available applications:
+  Nginx Full
+  Nginx HTTP
+  Nginx HTTPS
+  OpenSSH
+  Postfix
+  Postfix SMTPS
+  Postfix Submission
+
+Status: active
+
+To                         Action      From
+--                         ------      ----
+Nginx Full                 ALLOW       Anywhere                  
+80/tcp                     ALLOW       Anywhere                  
+22                         ALLOW       128.186.122.109           
+22                         ALLOW       128.186.122.110           
+22                         ALLOW       128.186.122.108           
+22                         ALLOW       128.186.122.107           
+22                         ALLOW       128.186.122.106           
+22                         ALLOW       128.186.122.105           
+22                         ALLOW       128.186.122.104           
+22                         ALLOW       128.186.122.103           
+443                        ALLOW       Anywhere                  
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+Nginx Full (v6)            ALLOW       Anywhere (v6)             
+443 (v6)                   ALLOW       Anywhere (v6)             
+
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset:>
+     Active: active (running) since Sat 2022-11-05 21:14:50 UTC; 3h 40min ago
+       Docs: man:nginx(8)
+   Main PID: 31491 (nginx)
+      Tasks: 2 (limit: 512)
+     Memory: 8.3M
+        CPU: 296ms
+     CGroup: /system.slice/nginx.service
+             ├─31491 "nginx: master process /usr/sbin/nginx -g daemon on; maste>
+             └─31494 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" ">
+
+True location:
+
+/usr/sbin/nginx 
+
+server {
+    server_name noahwilliamshaffer.com www.noahwilliamshaffer.com;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/marlee/ProjectFiles/myproject.sock;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/noahwilliamshaffer.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/noahwilliamshaffer.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = www.noahwilliamshaffer.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = noahwilliamshaffer.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    server_name noahwilliamshaffer.com www.noahwilliamshaffer.com;
+    return 404; # managed by Certbot
+
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+	worker_connections 768;
+	# multi_accept on;
+}
+
+http {
+
+	
+ Basic Settings
+
+
+	sendfile on;
+	tcp_nopush on;
+	types_hash_max_size 2048;
+	server_tokens off;
+
+	 server_names_hash_bucket_size 64;
+	 server_name_in_redirect off;
+
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	
+	 SSL Settings
+	
+
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+	ssl_prefer_server_ciphers on;
+
+	
+	 Logging Settings
+
+
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+
+	
+	 Gzip Settings
+	
+
+	gzip on;
+
+	gzip_vary on;
+	gzip_proxied any;
+ gzip_comp_level 6;
+	 gzip_buffers 16 8k;
+	 gzip_http_version 1.1;
+	 gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+	
+	 Virtual Host Configs
+	
+
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}
+
+
+mail {
+ See sample authentication script at:
+ http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+
+  auth_http localhost/auth.php;
+  pop3_capabilities "TOP" "USER";
+  imap_capabilities "IMAP4rev1" "UIDPLUS";
+
+	server {
+		listen     localhost:110;
+		protocol   pop3;
+		proxy      on;
+	}
+
+	server {
+		listen     localhost:143;
+		protocol   imap;
+		proxy      on;
+	}
+  
+proxy_set_header Host $http_host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
