@@ -170,6 +170,10 @@ def logout():
     )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
+@app.route("/Admin", methods =["GET", "POST"])
+def Admin():
+    return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
    # if request.method == "POST":
