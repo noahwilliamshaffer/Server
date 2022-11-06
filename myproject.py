@@ -44,13 +44,15 @@ def get_db_connection():
     return conn
 
 #should be called everytime a user likes a post
-def FillUser(name,  email):
+def FillUser(name, email):
+    #email = "Admin@gmail.com"
+    #name = "UsersName"
     #conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
 
     #headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
 
     #conn.request("GET", "/var/www/noahwilliamshaffer.com/api/v2/users/%7BuserId%7D", headers=headers)
-
+    
     #res = conn.getresponse()
     #data = res.read()
     #dictionary = dir(res)    
@@ -69,6 +71,7 @@ def FillUser(name,  email):
 
     connection.commit()
     connection.close()
+#FillUser()
 
 def FillLikedArt(email, title, url):
     #liked articles unique to each user
@@ -176,6 +179,11 @@ def Admin():
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
+    Email = "Admin2@gmail.com"
+    Name = "User2Name"
+    FillUser(Name,Email)
+   # FillUser(name, email)
+
   #  if request.method == "POST":
    #     userName = request.form["name"]
     #    userEmail = request.form["email"]
