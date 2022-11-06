@@ -20,6 +20,11 @@ We call the curl command on our domain and it sends a synchronized tcp/ip reques
 
 For security we will white list our ip addresses, not only from our ufw, but also on nginx for making a connection to out server through ssh so that the server can only be accessed in places and computers that we find acceptable. In addition, we use https which really keeps the site secure for our user. Also, just by being aware of updates not only on digital ocean, but on all of the tools we are using for hosting will help us prevent our server and site from being exploited by known zero days. We also only use ssh keys to get onto our server, and the only password is used internally to go from user to root access. Something that will be done which has not be unfortunately is to disable root logins. Using nginx is also an important part of our security because it lessens the attack surface and when it acts as a proxy it keeps the parts of the site that actually hold the files and host the site safe because only nginx is interacting with the web.
 
+## How we deal with updates and upgrades
+To deal with updates and upgrades we are curently using the unintended upgrades package on ubuntu to upgrade aspects of the server, it is automated and happens at random times daly. Updates and upgrades is something that we are flexable with and if we decade towrds the end of the project that unintended upgrades is not updating all the packets neccesary, we plan on implmenting ansble for updates and upgrades.
+
+## configuration path 
+ the file paths of our ssh/nginx/gunicorn/dns configuration are:
 
 ## Name
 Choose a self-explaining name for your project.
