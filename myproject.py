@@ -172,21 +172,11 @@ def logout():
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
-    #if request.method == "POST":
-       # getting input with name = fname in HTML form
-     #  first_name = request.form.get("fname")
-       # getting input with name = lname in HTML form
-      # last_name = request.form.get("lname")
-      # return "Your name is "+first_name + last_name
-
-
-    #call fill database upon entry into home page
-    #fillDataBase()
-    #session = session.get('user')
-    #pretty=json.dumps(session.get('user')
-   # name = session.userinfo.name
-    #email = info.userinfo.email
-    #FillUser(name, email)
+   # if request.method == "POST":
+    #    userName = request.form["name"]
+     #   userEmail = request.form["email"]
+      #  return render_template("Admin.html",session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4)))
+   # else:
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
@@ -196,19 +186,24 @@ def home():
 #Art = conn.execute('SELECT * FROM Art').fetchall()
 #conn.close()
 def show_top_ten():
-    titles_arr = []
-    urls_arr = []
+    #if request.method == "POST":
+        #userName = request.form["name"]
+        #userEmail = request.form["email"]
+        #return render_template("/")
+    #else:    
+        titles_arr = []
+        urls_arr = []
     #connection = sqlite3.connect('database.db')
     #with open('schema.sql') as f:
     #    connection.executescript(f.read())
     #    cur = connection.cursor()
-    conn = get_db_connection()
-    titles = conn.execute('SELECT title  FROM Art').fetchall()
-    urls = conn.execute('SELECT url  FROM Art').fetchall()
-    conn.close()
+        conn = get_db_connection()
+        titles = conn.execute('SELECT title  FROM Art').fetchall()
+        urls = conn.execute('SELECT url  FROM Art').fetchall()
+        conn.close()
 
-    titles_arr = [i[0] for i in titles]
-    urls_arr = [i[0] for i in urls]
+        titles_arr = [i[0] for i in titles]
+        urls_arr = [i[0] for i in urls]
     #for row in titles:
      #   titles_arr.append(row[x])
 
@@ -216,7 +211,7 @@ def show_top_ten():
      #   urls_arr.append(row[y])
 
         #makes the variables available in the html file that this route points to
-    return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+        return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 #In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
 #GET requests are used to retrieve data from the server.
