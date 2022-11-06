@@ -38,16 +38,103 @@ oauth.register(
 #THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
 def get_db_connection():
     conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
+
+    #do we do this one or use our schema???
+   # conn.row_factory = sqlite3.Row
     return conn
+
+#should be called everytime a user likes a post
+def FillUser(name,  email):
+    #conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
+
+    #headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
+
+    #conn.request("GET", "/var/www/noahwilliamshaffer.com/api/v2/users/%7BuserId%7D", headers=headers)
+
+    #res = conn.getresponse()
+    #data = res.read()
+    #dictionary = dir(res)    
+    #decodedData = data.decode("utf-8")
+    #name = session.userinfo.name
+    connection = sqlite3.connect('likedArticles.db')
+    #EMAIL = decodedData.get('email')
+    #do we do this one or sqlite3.Row???
+    with open('artSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
+
+        cur.execute("INSERT OR IGNORE INTO users(name, email) VALUES (?, ?)",
+        (name, email)
+            )
+
+    connection.commit()
+    connection.close()
+
+def FillLikedArt(email, title, url):
+    #liked articles unique to each user
+    connection = sqlite3.connect('likedArticles.db')
+
+    #do we do this one or sqlite3.Row???
+    with open('artSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
+
+
+    cur.execute("INSERT OR INGNORE INTO likedArt (User_Id,title,url) VALUES (?, ?)",
+            (email, title, url)
+            )
+    connection.commit()
+    connection.close()
+
+    #for x in range(0, 10):
+     #   cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
+      #  ('title', 'url')
+       #     )
+
+#    connection.commit()
+ #   connection.close()
+
+#FillLikedArt()
+def FillDataBase():
+    response = requests.get(
+        "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+    )
+    link_titles = []    #the emptylist for titles
+    link_url = []       #the empty list for url's of hackernews
+    #for loop that loops through the ten articles and prints the x title over the x link
+    for x in range(0, 30):
+        link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
+        link = requests.get(link_string).json()
+        link_titles.append(link["title"])
+        link_url.append(link["url"])
+    con = get_db_connection()
+    connection = sqlite3.connect('database.db')
+
+    #do we do this one or sqlite3.Row???
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+        cur = connection.cursor()
+
+    for x in range(0, 30):
+        cur.execute("INSERT INTO Art (title, url) VALUES (?, ?)",
+        (link_titles[x], link_url[x])
+            )
+
+    connection.commit()
+    connection.close()
+
+
+#FillDataBase()
+
+
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
 #APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route('/database')
 def index():
     conn = get_db_connection()
-    posts = conn.execute('SELECT * FROM posts').fetchall()
+    posts = conn.execute('SELECT * FROM Art').fetchall()
     conn.close()
-    return render_template('index.html', posts=posts)
+    return render_template('database.html', posts=posts)
 
 @app.route("/login")
 def login():
@@ -83,33 +170,71 @@ def logout():
     )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
-@app.route("/")
+@app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
+    #if request.method == "POST":
+       # getting input with name = fname in HTML form
+     #  first_name = request.form.get("fname")
+       # getting input with name = lname in HTML form
+      # last_name = request.form.get("lname")
+      # return "Your name is "+first_name + last_name
+
+
+    #call fill database upon entry into home page
+    #fillDataBase()
+    #session = session.get('user')
+    #pretty=json.dumps(session.get('user')
+   # name = session.userinfo.name
+    #email = info.userinfo.email
+    #FillUser(name, email)
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news")
 #Define function for top ten articles
+#conn = get_db_connection()
+#Art = conn.execute('SELECT * FROM Art').fetchall()
+#conn.close()
 def show_top_ten():
-    #response is the .json taken from the hacker news
-    response = requests.get(
-        "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
-    )
-    link_titles = []    #the emptylist for titles
-    link_url = []       #the empty list for url's of hackernews
-    #for loop that loops through the ten articles and prints the x title over the x link
-    for x in range(0, 10):
-        link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
-        link = requests.get(link_string).json()
-        link_titles.append(link["title"])
-        link_url.append(link["url"])
+    titles_arr = []
+    urls_arr = []
+    #connection = sqlite3.connect('database.db')
+    #with open('schema.sql') as f:
+    #    connection.executescript(f.read())
+    #    cur = connection.cursor()
+    conn = get_db_connection()
+    titles = conn.execute('SELECT title  FROM Art').fetchall()
+    urls = conn.execute('SELECT url  FROM Art').fetchall()
+    conn.close()
+
+    titles_arr = [i[0] for i in titles]
+    urls_arr = [i[0] for i in urls]
+    #for row in titles:
+     #   titles_arr.append(row[x])
+
+    #for row in urls:
+     #   urls_arr.append(row[y])
+
         #makes the variables available in the html file that this route points to
-    return render_template("news.html",link_url=link_url, link_titles=link_titles,  session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+#In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
+#GET requests are used to retrieve data from the server.
+#POST requests are used to post data to a specific route. 
+#By default, only GET requests are allowed.
+#When the user first requests the /create route using a GET request, a template file called create.html will be rendered.
+#You will later edit this route to handle POST requests for when users fill and submit the web form for creating new posts.
+#this is where we we pull from the database
+
+
+@app.route('/create/', methods=('GET', 'POST'))
+def create():
+    return render_template('create.html')
+
 
 @app.route("/oldnews")
 
-def api():
-    #return render_template("news.html")
-    
+def api(): 
     #are we sure this is supposed to be client?
     #class http.client.HTTPConnection(host, port=None, [timeout, ]source_address=None, blocksize=8192)¶
     conn = http.client.HTTPSConnection("hacker-news.firebaseio.com")
