@@ -17,6 +17,9 @@ For security we will white list our ip addresses, not only from our ufw, but als
 ## How we deal with updates and upgrades
 To deal with updates and upgrades we are curently using the unintended upgrades package on ubuntu to upgrade aspects of the server, it is automated and happens at random times daly. Updates and upgrades is something that we are flexable with and if we decade towrds the end of the project that unintended upgrades is not updating all the packets neccesary, we plan on implmenting ansble for updates and upgrades.
 
+## configuration path 
+ the file paths of our ssh/nginx/gunicorn/dns configuration are:
+
 ## Name
 Choose a self-explaining name for your project.
 
