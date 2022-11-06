@@ -44,7 +44,7 @@ def get_db_connection():
     return conn
 
 #should be called everytime a user likes a post
-def FillUser(name, email):
+def FillUser(Id, name, email):
     #email = "Admin@gmail.com"
     #name = "UsersName"
     #conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
@@ -65,30 +65,33 @@ def FillUser(name, email):
         connection.executescript(b.read())
         cur = connection.cursor()
 
-        cur.execute("INSERT OR IGNORE INTO users(name, email) VALUES (?, ?)",
-        (name, email)
+        cur.execute("INSERT OR IGNORE INTO users(userId, name, email) VALUES (?, ?, ?)",
+        (userId, name, email)
             )
 
     connection.commit()
     connection.close()
 #FillUser()
 
-def FillLikedArt(email, title, url):
+def FillLikedArt(Id, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
-
+    
     #do we do this one or sqlite3.Row???
     with open('artSchema.sql') as b:
         connection.executescript(b.read())
         cur = connection.cursor()
 
 
-    cur.execute("INSERT OR INGNORE INTO likedArt (User_Id,title,url) VALUES (?, ?)",
-            (email, title, url)
+    cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
+            (Id,title, url)
             )
     connection.commit()
     connection.close()
-
+Id = 1
+Title ="Title2"
+Url = "Url2"
+FillLikedArt(Id,Title,Url)
     #for x in range(0, 10):
      #   cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
       #  ('title', 'url')
@@ -179,9 +182,11 @@ def Admin():
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
+    Id = 1;
     Email = "Admin2@gmail.com"
     Name = "User2Name"
-    FillUser(Name,Email)
+    FillUser(Id,Name,Email)
+
    # FillUser(name, email)
 
   #  if request.method == "POST":
@@ -193,29 +198,34 @@ def home():
 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news", methods =["GET", "POST"])
+
 #Define function for top ten articles
 #conn = get_db_connection()
 #Art = conn.execute('SELECT * FROM Art').fetchall()
 #conn.close()
 def show_top_ten():
+    Email = "Admin2@gmail.com"
+    Title ="Title"
+    Url = "Url"
+    #FillLikedArt(Email,Title,Url)
     #if request.method == "POST":
         #userName = request.form["name"]
         #userEmail = request.form["email"]
         #return render_template("/")
     #else:    
-        titles_arr = []
-        urls_arr = []
+    titles_arr = []
+    urls_arr = []
     #connection = sqlite3.connect('database.db')
     #with open('schema.sql') as f:
     #    connection.executescript(f.read())
     #    cur = connection.cursor()
-        conn = get_db_connection()
-        titles = conn.execute('SELECT title  FROM Art').fetchall()
-        urls = conn.execute('SELECT url  FROM Art').fetchall()
-        conn.close()
+    conn = get_db_connection()
+    titles = conn.execute('SELECT title  FROM Art').fetchall()
+    urls = conn.execute('SELECT url  FROM Art').fetchall()
+    conn.close()
 
-        titles_arr = [i[0] for i in titles]
-        urls_arr = [i[0] for i in urls]
+    titles_arr = [i[0] for i in titles]
+    urls_arr = [i[0] for i in urls]
     #for row in titles:
      #   titles_arr.append(row[x])
 
@@ -223,7 +233,7 @@ def show_top_ten():
      #   urls_arr.append(row[y])
 
         #makes the variables available in the html file that this route points to
-        return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 #In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
 #GET requests are used to retrieve data from the server.
