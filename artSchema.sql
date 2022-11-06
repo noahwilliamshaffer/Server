@@ -3,7 +3,7 @@ CREATE TABLE if not exists users
     name TEXT NOT NULL);
 
 CREATE TABLE if not exists likedArt
-   (	Users_Id TEXT, NOT NULL,
+   (	Users_Id TEXT NOT NULL,
 	title TEXT NOT NULL,
     	url TEXT NOT NULL,
     	FOREIGN KEY (User_Id) REFERENCES users (email)
