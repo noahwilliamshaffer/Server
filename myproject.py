@@ -190,7 +190,7 @@ def home():
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
-@app.route("/news")
+@app.route("/news", methods =["GET", "POST"])
 #Define function for top ten articles
 #conn = get_db_connection()
 #Art = conn.execute('SELECT * FROM Art').fetchall()
