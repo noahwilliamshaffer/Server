@@ -176,10 +176,10 @@ def Admin():
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
-   # if request.method == "POST":
-    #    userName = request.form["name"]
-     #   userEmail = request.form["email"]
-      #  return render_template("Admin.html",session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4)))
+    if request.method == "POST":
+        userName = request.form["name"]
+        userEmail = request.form["email"]
+        return redirect("/Admin")
    # else:
     return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
