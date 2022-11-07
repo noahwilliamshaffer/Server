@@ -40,19 +40,20 @@ def get_db_connection():
     conn = sqlite3.connect('database.db')
 
     #do we do this one or use our schema???
-   # conn.row_factory = sqlite3.Row
+    conn.row_factory = sqlite3.Row
     return conn
 
 #should be called everytime a user likes a post
+ 
 def FillUser(Id, name, email):
     #email = "Admin@gmail.com"
     #name = "UsersName"
     #conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
-
+ 
     #headers = { 'authorization': "Bearer {yourMgmtApiAccessToken}" }
-
+ 
     #conn.request("GET", "/var/www/noahwilliamshaffer.com/api/v2/users/%7BuserId%7D", headers=headers)
-    
+ 
     #res = conn.getresponse()
     #data = res.read()
     #dictionary = dir(res)    
@@ -64,43 +65,60 @@ def FillUser(Id, name, email):
     with open('artSchema.sql') as b:
         connection.executescript(b.read())
         cur = connection.cursor()
-
-        cur.execute("INSERT OR IGNORE INTO users(userId, name, email) VALUES (?, ?, ?)",
-        (userId, name, email)
-            )
-
+ 
+    cur.execute("INSERT INTO lists (id, email) VALUES (? , ?)", (111111,'bingo@gmail.com'))
+    cur.execute("INSERT INTO lists (id, email) VALUES (?, ?)", (222222, 'bingbong@gmail.com'))
+    cur.execute("INSERT INTO lists (id, email) VALUES (?, ?)", (333333,'santa@gmail.com'))
+ 
+        #SET IDENTITY_INSERT users ON;
+        #cur.execute("INSERT INTO users(name, email) VALUES ( ?, ?)",
+        #( name, email)
+         #   )
+ 
     connection.commit()
     connection.close()
-#FillUser()
-
+Id = 3;
+Email = "Admin3@gmail.com"
+Name = "User3Name"
+FillUser(Id,Name,Email)
+ 
 def FillLikedArt(Id, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
-    
     #do we do this one or sqlite3.Row???
     with open('artSchema.sql') as b:
         connection.executescript(b.read())
         cur = connection.cursor()
-
-
-    cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
-            (Id,title, url)
+    #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
+    #        (Id,title, url)
+    #        )
+    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
+        (111111, 'TITLE1', 'www.example1.com')
+            )
+ 
+    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
+            (222222, 'TITLE2', 'www.example2.com')
+            )
+ 
+    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
+            (222222, 'TITLE3', 'www.example3.com')
+            )
+ 
+    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
+            (333333, 'TITLE4', 'www.example4.com')
+            )
+ 
+    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
+            (333333, 'TITLE5', 'www.example5.com')
             )
     connection.commit()
     connection.close()
-Id = 1
+Id = "Admin3@gmail.com"
 Title ="Title2"
 Url = "Url2"
 FillLikedArt(Id,Title,Url)
-    #for x in range(0, 10):
-     #   cur.execute("INSERT INTO likedArt (title, url) VALUES (?, ?)",
-      #  ('title', 'url')
-       #     )
 
-#    connection.commit()
- #   connection.close()
 
-#FillLikedArt()
 def FillDataBase():
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
@@ -128,9 +146,6 @@ def FillDataBase():
 
     connection.commit()
     connection.close()
-
-
-#FillDataBase()
 
 
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
@@ -185,7 +200,7 @@ def home():
     Id = 1;
     Email = "Admin2@gmail.com"
     Name = "User2Name"
-    FillUser(Id,Name,Email)
+    #FillUser(Id,Name,Email)
 
    # FillUser(name, email)
 
