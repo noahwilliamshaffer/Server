@@ -201,11 +201,25 @@ def logout():
 def home():
     Email = "bingo@gmail.com"
     if Email in  Admins:
-        #return redirect(url_for('Admin'))
+        def printLiked():
+            con = sqlite3.connect('database.db')
+            with open('artSchema.sql') as f:
+                con.executescript(f.read())
+                cur = con.cursor
         return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
     
     else:
         render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+
+#@app.route("/Liked", methods =["GET", "POST"])
+#def show_top_ten():
+#    Email = "Admin2@gmail.com"
+#    Title ="Title"
+#    Url = "Url"
+
+#return render_template("Liked.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news", methods =["GET", "POST"])
@@ -226,6 +240,7 @@ def show_top_ten():
     #else:    
     titles_arr = []
     urls_arr = []
+    #I DONT KNOW WHY THIS IS COMMENTED OUT I REMEMBER NEEDING TO USE THIS
     #connection = sqlite3.connect('database.db')
     #with open('schema.sql') as f:
     #    connection.executescript(f.read())
