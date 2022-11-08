@@ -40,12 +40,14 @@ def get_db_connection():
     conn = sqlite3.connect('database.db')
 
     #do we do this one or use our schema???
-    conn.row_factory = sqlite3.Row
+    #conn.row_factory = sqlite3.Row
     return conn
 
 #should be called everytime a user likes a post
- 
-def FillUser(Id, name, email):
+Admins = []
+Admins.append("bingo@gmail.com")
+
+#def FillUser(Id, name, email):
     #email = "Admin@gmail.com"
     #name = "UsersName"
     #conn = http.client.HTTPSConnection("www.noahwilliamshaffer.com")
@@ -59,29 +61,29 @@ def FillUser(Id, name, email):
     #dictionary = dir(res)    
     #decodedData = data.decode("utf-8")
     #name = session.userinfo.name
-    connection = sqlite3.connect('likedArticles.db')
+    #connection = sqlite3.connect('likedArticles.db')
     #EMAIL = decodedData.get('email')
     #do we do this one or sqlite3.Row???
-    with open('artSchema.sql') as b:
-        connection.executescript(b.read())
-        cur = connection.cursor()
+ #   with open('artSchema.sql') as b:
+  #      connection.executescript(b.read())
+   #     cur = connection.cursor()
  
-    cur.execute("INSERT INTO lists (id, email) VALUES (? , ?)", (111111,'bingo@gmail.com'))
-    cur.execute("INSERT INTO lists (id, email) VALUES (?, ?)", (222222, 'bingbong@gmail.com'))
-    cur.execute("INSERT INTO lists (id, email) VALUES (?, ?)", (333333,'santa@gmail.com'))
+   # cur.execute("INSERT INTO usr (id, email) VALUES (?,?)", (111111,'bingo@gmail.com'))
+   # cur.execute("INSERT INTO usr (id, email) VALUES (?, ?)", (222222, 'bingbong@gmail.com'))
+   # cur.execute("INSERT INTO usr (id, email) VALUES (?, ?)", (333333,'santa@gmail.com'))
  
         #SET IDENTITY_INSERT users ON;
         #cur.execute("INSERT INTO users(name, email) VALUES ( ?, ?)",
         #( name, email)
          #   )
  
-    connection.commit()
-    connection.close()
-Id = 3;
-Email = "Admin3@gmail.com"
-Name = "User3Name"
-FillUser(Id,Name,Email)
- 
+    #connection.commit()
+    #connection.close()
+#Id = 3;
+#Email = "Admin3@gmail.com"
+#Name = "User3Name"
+#FillUser(Id,Name,Email)
+
 def FillLikedArt(Id, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
@@ -92,24 +94,24 @@ def FillLikedArt(Id, title, url):
     #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
     #        (Id,title, url)
     #        )
-    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
-        (111111, 'TITLE1', 'www.example1.com')
+    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+        (111111,'Example5@gmail.com', 'TITLE1', 'www.example1.com')
             )
  
-    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
-            (222222, 'TITLE2', 'www.example2.com')
+    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?,?, ?, ?)",
+            (222222,'Example5@gmail.com', 'TITLE2', 'www.example2.com')
             )
  
-    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
-            (222222, 'TITLE3', 'www.example3.com')
+    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+            (222222,'Example5@gmail.com', 'TITLE3', 'www.example3.com')
             )
  
-    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
-            (333333, 'TITLE4', 'www.example4.com')
+    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+            (333333,'Example5@gmail.com', 'TITLE4', 'www.example4.com')
             )
  
-    cur.execute("INSERT INTO items (list_id, title, url) VALUES (?, ?, ?)",
-            (333333, 'TITLE5', 'www.example5.com')
+    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+            (333333, 'Example5@gmail.com', 'TITLE5', 'www.example5.com')
             )
     connection.commit()
     connection.close()
@@ -191,25 +193,19 @@ def logout():
     )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
-@app.route("/Admin", methods =["GET", "POST"])
-def Admin():
-    return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+#@app.route("/Admin", methods =["GET", "POST"])
+#def Admin():
+#    return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
-    Id = 1;
-    Email = "Admin2@gmail.com"
-    Name = "User2Name"
-    #FillUser(Id,Name,Email)
-
-   # FillUser(name, email)
-
-  #  if request.method == "POST":
-   #     userName = request.form["name"]
-    #    userEmail = request.form["email"]
-     #   return redirect("/Admin")
-    #else:
-    return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    Email = "bingo@gmail.com"
+    if Email in  Admins:
+        #return redirect(url_for('Admin'))
+        return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    
+    else:
+        render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news", methods =["GET", "POST"])
