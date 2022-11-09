@@ -204,8 +204,8 @@ def home():
     temp = json.loads(userinfo)
 
     temp2 = temp['userinfo']
-    id = temp2['sub']
-
+    ids = temp2['sub']
+  
     if Email in  Admins:
         def printLiked():
             con = sqlite3.connect('database.db')
