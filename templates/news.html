@@ -13,10 +13,8 @@
  <form class "grid" action ="/Liked" method = "POST">
 	 <center>
 	</center>
-	<label for = "name"> Enter your name : </label>
-	<input type = "text" name = "name" id = "name">
-	<input type = "submit" class = "file_submit"></center>
-	 </form>
+	<input type = "button" name = "likeButton" value  = "like">
+	</form>
 
                 <p>Name:</p>
                 <p>Email:</p>
@@ -37,7 +35,7 @@
 		<p>Email:</p>
 		<p><input type = "text" name = {{session.userinfo.name}} /></p>
 		<p><input type = "text" email = {{session.userinfo.email}} /></p>
-		<p><input type = "submit" value = "submit"/</p>
+		<p><input type = "submit" value = "submit"</p>
 	</form>
 	<h1>Welcome {{session.userinfo.name}}!</h1>
 	<p><input type="submit" value = "Like" /></p>
@@ -48,6 +46,12 @@
                 <span id = "count"> 0 </span> like
         </button><h3>
         </button>
+
+     	<form class "grid" action ="/Liked" method = "POST">
+         <center>
+        </center>	
+	    <input type="button" name="like"  value="like">
+        </form>
        	 	 {% endfor%}
       </nav>
 
