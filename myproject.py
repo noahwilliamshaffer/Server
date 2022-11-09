@@ -149,6 +149,17 @@ def FillDataBase():
     connection.commit()
     connection.close()
 
+@app.route('/Like')
+def Like():
+    output = request.form.to_dict()
+    name = output["name"]
+
+
+@app.route('/remove')
+def remove():
+    output = request.form.to_dict()
+    name = output["name"]
+
 
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
 #APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
