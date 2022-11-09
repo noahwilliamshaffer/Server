@@ -84,7 +84,8 @@ Admins.append("bingo@gmail.com")
 #Name = "User3Name"
 #FillUser(Id,Name,Email)
 
-def FillLikedArt(Id, title, url):
+
+def RemoveLikedArt(url_):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
     #do we do this one or sqlite3.Row???
@@ -93,7 +94,28 @@ def FillLikedArt(Id, title, url):
         cur = connection.cursor()
     #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
     #        (Id,title, url)
-    #        )
+    #
+    cur.execute("DELETE FROM items WHERE url = 1")
+            
+    connection.commit()
+    connection.close()
+
+Url = "Url2"
+RemoveLikedArt(Url)
+
+def FillLikedArt(name, email, title, url):
+    #liked articles unique to each user
+    connection = sqlite3.connect('likedArticles.db')
+    #do we do this one or sqlite3.Row???
+    with open('artSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
+    #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
+    #        (Id,title, url)
+    #      
+    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+        (name,email, title, url)
+            )
     cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
         (111111,'Example5@gmail.com', 'TITLE1', 'www.example1.com')
             )
@@ -115,10 +137,11 @@ def FillLikedArt(Id, title, url):
             )
     connection.commit()
     connection.close()
-Id = "Admin3@gmail.com"
+name ="noah"
+email = "Admin3@gmail.com"
 Title ="Title2"
 Url = "Url2"
-FillLikedArt(Id,Title,Url)
+FillLikedArt(name,email,Title,Url)
 
 
 def FillDataBase():
@@ -149,13 +172,13 @@ def FillDataBase():
     connection.commit()
     connection.close()
 
-@app.route('/Like')
+@app.route('/Like', methods=['GET', 'POST'])
 def Like():
     output = request.form.to_dict()
     name = output["name"]
 
 
-@app.route('/remove')
+@app.route('/remove', methods=['GET', 'POST'])
 def remove():
     output = request.form.to_dict()
     name = output["name"]
