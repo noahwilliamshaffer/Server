@@ -199,12 +199,12 @@ def logout():
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
-    Email = "bingo@gmail.com"
-    userinfo = json.dumps(session.get("user"))
-    temp = json.loads(userinfo)
+    Email = "1bingo@gmail.com"
+    #userinfo = json.dumps(session.get("user"))
+    #temp = json.loads(userinfo)
 
-    temp2 = temp['userinfo']
-    ids = temp2['sub']
+    #temp2 = temp['userinfo']
+    #ids = temp2['sub']
   
     if Email in  Admins:
         def printLiked():
@@ -215,7 +215,7 @@ def home():
         return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
     
     else:
-        render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+        return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 #@app.route("/Liked", methods =["GET", "POST"])
