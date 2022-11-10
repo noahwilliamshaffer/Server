@@ -15,7 +15,7 @@
 	</center>
 	<input type = "button" name = "likeButton" value  = "like">
 	</form>
-
+		
                 <p>Name:</p>
                 <p>Email:</p>
                 <p><input type = "text" name = {{session.userinfo.name}} /></p>
@@ -30,7 +30,16 @@
         <a href="news.html">Refresh Page</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
 
-	<form action ="#" method = "post">
+	<form method = "post"action = "/Like">
+		{{form.hidden_tag()}}
+		<fieldset class = "form-group">
+			<legend> Join Today</legend>
+			<div class = "form-group">
+			
+				{{form.title.label(class = "form-control form-control-label") }} 
+				 {{form.title(class = "form-control form-control-lg") }}
+			</div>
+			</fieldset>	
 		<p>Name:</p>
 		<p>Email:</p>
 		<p><input type = "text" name = {{session.userinfo.name}} /></p>
@@ -50,11 +59,11 @@
      	<form class "grid" action ="/Liked" method = "POST">
          <center>
         </center>
-	    <input type="submit" value={{titles_arr[x]}} name="title">
-	    <input type="text" value={{urls_arr[x]}} name="urls">
-	    <input type="text" value={{session.userinfo.name}} name="name">
-	    <input type="text" value={{session.userinfo.email}} name="email">
-	    <input type="text" name="like"  value="like">
+	    <input type="hidden" value={{titles_arr[x]}} name="title">
+	    <input type="hidden" value={{urls_arr[x]}} name="urls">
+	    <input type="hidden" value={{session.userinfo.name}} name="name">
+	    <input type="hidden" value={{session.userinfo.email}} name="email">
+	    <input type="hidden" name="like"  value="like">
         </form>
        	 	 {% endfor%}
       </nav>
