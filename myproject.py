@@ -59,7 +59,7 @@ def get_db_connection():
 
 #should be called everytime a user likes a post
 Admins = []
-Admins.append("bingo@gmail.com")
+Admins.append("noahwilliamshaffer@gmail.com")
 
 #def FillUser(Id, name, email):
     #email = "Admin@gmail.com"
@@ -250,7 +250,7 @@ def logout():
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
-    Email = "1bingo@gmail.com"
+    Email = "noahwilliamshaffer@gmail.com"
     #userinfo = json.dumps(session.get("user"))
     #temp = json.loads(userinfo)
 
@@ -259,10 +259,16 @@ def home():
   
     if Email in  Admins:
         def printLiked():
-            con = sqlite3.connect('database.db')
+            emails_arr = []
+            con = sqlite3.connect('LikedArticles.db')
             with open('artSchema.sql') as f:
                 con.executescript(f.read())
-                cur = con.cursor
+            cur = con.cursor
+            #conn = get_db_connection()
+            emails = cur.execute('SELECT email FROM items').fetchall()
+            #    conn.close()
+
+            #emails_arr = [i[0] for i in titles]
         return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
     
     else:
