@@ -288,9 +288,14 @@ def home():
 def show_top_ten():
     if request.method == "POST":
        # getting input with name = fname in HTML form
-       title = request.form.get("title")
+        title = request.form.get("title")
        # getting input with name = lname in HTML form
-       url = request.form.get("url")
+        url = request.form.get("url")
+        #email = requests.form.get("email")
+        #name = request.form.get("name")
+        email = "ThisWorks@gmail.com"
+        name ="Working"
+        FillLikedArt(name, email, title, url)
     form = AddLike()
     Email = "Admin2@gmail.com"
     Title ="Title"
