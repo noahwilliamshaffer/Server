@@ -188,8 +188,11 @@ def FillDataBase():
 
 @app.route('/Like', methods=['GET', 'POST'])
 def Like():
-    output = request.form.to_dict()
-    name = output["name"]
+    #output = request.form.to_dict()
+    #title = output["title"]
+
+
+    return redirect("/news")
 
 
 @app.route('/remove', methods=['GET', 'POST'])
@@ -312,7 +315,8 @@ def show_top_ten():
 
     #for row in urls:
      #   urls_arr.append(row[y])
-
+   # output = request.form.to_dict()
+    #title = output["title"]
         #makes the variables available in the html file that this route points to
     return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr,form = form, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
