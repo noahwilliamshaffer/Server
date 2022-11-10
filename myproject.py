@@ -293,6 +293,8 @@ def show_top_ten():
         url = request.form.get("url")
         #email = requests.form.get("email")
         #name = request.form.get("name")
+        
+        #SET NAME AND EMAIL PYTHON SIDE
         email = "ThisWorks@gmail.com"
         name ="Working"
         FillLikedArt(name, email, title, url)
