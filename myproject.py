@@ -5,7 +5,9 @@ import http.client
 import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
-
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Length, email, EqualTo
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for
@@ -21,6 +23,18 @@ app.secret_key = env.get("APP_SECRET_KEY")
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
 oauth = OAuth(app)
+
+app.config['SECRET_KEY']  = 'BINGBONG'
+class AddLike(FlaskForm):
+    title = StringField('Title')
+    email = StringField('Email')
+    url = StringField('url')
+    name = StringField('name')
+    submit = SubmitField('Like')
+
+class RemoveLike(FlaskForm):
+    url = StringField('url')
+    submit = SubmitField('Remove')
 
 oauth.register(
     "auth0",
@@ -263,12 +277,13 @@ def home():
 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news", methods =["GET", "POST"])
-
+#form = AddLike()
 #Define function for top ten articles
 #conn = get_db_connection()
 #Art = conn.execute('SELECT * FROM Art').fetchall()
 #conn.close()
 def show_top_ten():
+    form = AddLike()
     Email = "Admin2@gmail.com"
     Title ="Title"
     Url = "Url"
@@ -299,7 +314,7 @@ def show_top_ten():
      #   urls_arr.append(row[y])
 
         #makes the variables available in the html file that this route points to
-    return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr,form = form, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 #In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
 #GET requests are used to retrieve data from the server.
