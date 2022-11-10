@@ -10,7 +10,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, email, EqualTo
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, redirect, render_template, session, url_for
+from flask import Flask, redirect, render_template, session, url_for, request
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
 ENV_FILE = find_dotenv()
@@ -286,6 +286,11 @@ def home():
 #Art = conn.execute('SELECT * FROM Art').fetchall()
 #conn.close()
 def show_top_ten():
+    if request.method == "POST":
+       # getting input with name = fname in HTML form
+       title = request.form.get("title")
+       # getting input with name = lname in HTML form
+       url = request.form.get("url")
     form = AddLike()
     Email = "Admin2@gmail.com"
     Title ="Title"
