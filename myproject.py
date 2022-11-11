@@ -253,23 +253,23 @@ def home():
     Email = "noahwilliamshaffer@gmail.com"
     #userinfo = json.dumps(session.get("user"))
     #temp = json.loads(userinfo)
-
+    emails_arr = []
     #temp2 = temp['userinfo']
     #ids = temp2['sub']
   
     if Email in  Admins:
         def printLiked():
-            emails_arr = []
             con = sqlite3.connect('LikedArticles.db')
-            with open('artSchema.sql') as f:
-                con.executescript(f.read())
+            #with open('artSchema.sql') as f:
+             #   con.executescript(f.read())
             cur = con.cursor
             #conn = get_db_connection()
             emails = cur.execute('SELECT email FROM items').fetchall()
-            #    conn.close()
+            conn.close()
 
-            #emails_arr = [i[0] for i in titles]
-        return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+            emails_arr = [i[0] for i in emails]
+
+        return render_template("Admin.html",emails_arr = emails_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
     
     else:
         return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))

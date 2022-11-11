@@ -14,7 +14,10 @@
       </nav>
   </header>
   <div id="contactform">
-<h1> HackerNews login</h1>
+<h1> UserProfiles</h1>
+{% for x in range(0,30)%}
+	<h3>User: {{emails_arr[x]}}</a>
+                {% endfor%}
 </div>
         <p><a href="/logout">Logout</a></p>
     {% else %}
