@@ -31,7 +31,7 @@ class AddLike(FlaskForm):
     url = StringField('url')
     name = StringField('name')
     submit = SubmitField('Like')
-
+    
 class RemoveLike(FlaskForm):
     url = StringField('url')
     submit = SubmitField('Remove')
@@ -253,23 +253,26 @@ def home():
     Email = "noahwilliamshaffer@gmail.com"
     #userinfo = json.dumps(session.get("user"))
     #temp = json.loads(userinfo)
-    emails_arr = []
     #temp2 = temp['userinfo']
     #ids = temp2['sub']
-  
+    con = sqlite3.connect('likedArticles.db')
+    cursor = con.execute('SELECT title,email,url FROM items')
+    items = cursor.fetchall()
+    #return render_template('print_items.html', items=items)
+    cursor.close()
     if Email in  Admins:
-        def printLiked():
-            con = sqlite3.connect('LikedArticles.db')
+        #def printLiked():
+            #con = sqlite3.connect('likedArticles.db')
             #with open('artSchema.sql') as f:
              #   con.executescript(f.read())
-            cur = con.cursor
+           # cur = con.cursor
             #conn = get_db_connection()
-            emails = cur.execute('SELECT email FROM items').fetchall()
-            conn.close()
+            #emails = con.execute('SELECT email FROM items').fetchall()
+            #conn.close()
 
-            emails_arr = [i[0] for i in emails]
+            #emails_arr = [i[0] for i in emails]
 
-        return render_template("Admin.html",emails_arr = emails_arr, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+        return render_template("Admin.html",items = items, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
     
     else:
         return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
