@@ -200,9 +200,9 @@ def remove():
     output = request.form.to_dict()
     name = output["name"]
 
-@app.route("/userProfiles", methods =["GET", "POST"])
-def userProfiles():
-    return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+@app.route("/UserProfiles", methods =["GET", "POST"])
+def UserProfiles():
+    return render_template("UserProfiles.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
 #APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route('/database')
