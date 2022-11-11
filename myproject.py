@@ -202,13 +202,18 @@ def remove():
 
 @app.route("/UserProfiles", methods =["GET", "POST"])
 def UserProfiles():
-    email = request.form.get("email")
+    if request.method == "POST":
+       # getting input with name = fname in HTML form
+        ID = request.form.get("id")
+
+
+    Email = request.form.get("email")
     con = sqlite3.connect('likedArticles.db')
-    cursor = con.execute('SELECT id, title, url FROM items')
+    cursor = con.execute('SELECT id, title, url FROM items WHERE email = Email')
     items = cursor.fetchall()
     cursor.close()
 
-    return render_template("UserProfiles.html",email = email,items = items, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    return render_template("UserProfiles.html",email = Email,items = items, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
 #APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route('/database')

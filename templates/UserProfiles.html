@@ -17,11 +17,11 @@
 	<h1>{{email}}</h1>
 	{% for item in items %}
 <tr>
-	<td> ID: {item[0]} TITLE: {{item[1]}} URL: {{item[2]}} <form class "grid" action ="" method = "POST">
+	<td> ID: {{item[0]}} TITLE: {{item[1]}} URL: {{item[2]}} <form class "grid" action ="" method = "POST">
          <center>
         </center>
-        <input type="hidden" value={{item[2]}} name="email">
-            <input type="submit" name="like"  value="{remove}">
+        <input type="hidden" value={{item[0]}} name="id">
+            <input type="submit" name="remove"  value="remove">
         </form> </td>
 </td>
 {% endfor %}
