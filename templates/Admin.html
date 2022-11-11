@@ -18,13 +18,12 @@
 <table>
 {% for item in items %}
 <tr>
-	<td>{{item[1]}}</td>
-	<form class "grid" action ="" method = "POST">
+	<td> <form class "grid" action ="" method = "POST">
          <center>
         </center>
-            <input type="hidden" value=items[1] name="email">
-            <input type="submit" name="like"  value="choose user">
-        </form>
+	<input type="hidden" value={{items[1]}} name="email">
+            <input type="submit" name="like"  value="{{item[1]}}">
+        </form> </td>
 </td>
 {% endfor %}
 </div>
