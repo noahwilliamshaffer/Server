@@ -205,7 +205,10 @@ def UserProfiles():
     if request.method == "POST":
        # getting input with name = fname in HTML form
         ID = request.form.get("id")
-
+        con = sqlite3.connect('likedArticles.db')
+        cursor = con.execute('DELETE FROM items WHERE id = ID')
+        items = cursor.fetchall()
+        cursor.close()
 
     Email = request.form.get("email")
     con = sqlite3.connect('likedArticles.db')
