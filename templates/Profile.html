@@ -5,7 +5,8 @@
   </head>
   <body>
     {% if session %}
-        <h1>Welcome {{session.userinfo.name}}!</h1>
+        <h1>USERNAME: {{session.userinfo.name}}!</h1>
+	<h1>EMAIL: {{session.userinfo.name}}!</h1>
 	  <form action ="#" method = "post">
                 <p>Name:</p>
                 <p>Email:</p>
@@ -20,7 +21,6 @@
         <a href="https://www.noahwilliamshaffer.com/news">News?</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
   	<a href="https://www.noahwilliamshaffer.com/Admin">ADMIN</a> &nbsp;&nbsp;
-	 <a href="https://www.noahwilliamshaffer.com/Profile">Profile</a> &nbsp;&nbsp;
       </nav>
   </header>
   <div id="contactform">
