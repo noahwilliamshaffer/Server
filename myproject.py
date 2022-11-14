@@ -101,9 +101,9 @@ def RemoveLikedArt(url_):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
     #do we do this one or sqlite3.Row???
-    with open('artSchema.sql') as b:
-        connection.executescript(b.read())
-        cur = connection.cursor()
+    #with open('artSchema.sql') as b:
+    #    connection.executescript(b.read())
+    cur = connection.cursor()
     #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
     #        (Id,title, url)
     #
@@ -138,15 +138,24 @@ def FillUserEmail(email):
 email = "GOLLYGWILIKERS@gmail.com"
 FillUserEmail(email)
 
-
-
-def FillLikedArt(name, email, title, url):
-    #liked articles unique to each user
+def initLikedArt():
     connection = sqlite3.connect('likedArticles.db')
     #do we do this one or sqlite3.Row???
     with open('artSchema.sql') as b:
         connection.executescript(b.read())
         cur = connection.cursor()
+
+    connection.commit()
+    connection.close()
+initLikedArt()
+
+def FillLikedArt(name, email, title, url):
+    #liked articles unique to each user
+    connection = sqlite3.connect('likedArticles.db')
+    #do we do this one or sqlite3.Row???
+    #with open('artSchema.sql') as b:
+    #    connection.executescript(b.read())
+    cur = connection.cursor()
     #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
     #        (Id,title, url)
     #      
