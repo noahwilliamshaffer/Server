@@ -286,7 +286,8 @@ def logout():
 
 @app.route("/Admin")
 def Admin():
-    EMAIL = "noahwilliamshaffer"
+    EMAIL = "noahwilliamshaffer@gmail.com"
+    #EMAIL = "noahwilliamshaffer"
     con = sqlite3.connect('users.db')
     cursor = con.execute('SELECT email, id, created  FROM users')
     items = cursor.fetchall()
@@ -304,6 +305,11 @@ def Admin():
 #def Admin():
 #    return render_template("Admin.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
+@app.route("/Profile", methods =["GET", "POST"]) #Add a post request
+def Profile(): 
+    return render_template("Profile.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
     Email = "noahwilliamshaffer@gmail.com"
@@ -313,7 +319,7 @@ def home():
     #ids = temp2['sub']i
 
     #add user email here
-    FillUserEmail(email)
+    #FillUserEmail(email)
 
 
     #connect to user emails here
@@ -322,12 +328,12 @@ def home():
 
     #con = sqlite3.connect('likedArticles.db')
     #cursor = con.execute('SELECT title,email,url FROM items')
-    con = sqlite3.connect('users.db')
-    cursor = con.execute('SELECT email, id, created  FROM users')
-    items = cursor.fetchall()
+    #con = sqlite3.connect('users.db')
+    #cursor = con.execute('SELECT email, id, created  FROM users')
+    #items = cursor.fetchall()
     #return render_template('print_items.html', items=items)
-    cursor.close()
-    if Email in  Admins:
+    #cursor.close()
+    #if Email in  Admins:
         #def printLiked():
             #con = sqlite3.connect('likedArticles.db')
             #with open('artSchema.sql') as f:
@@ -339,10 +345,10 @@ def home():
 
             #emails_arr = [i[0] for i in emails]
 
-        return render_template("Admin.html",items = items, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+        #return render_template("Admin.html",items = items, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
     
-    else:
-        return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    #else:
+    return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 #@app.route("/Liked", methods =["GET", "POST"])
