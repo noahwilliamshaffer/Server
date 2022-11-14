@@ -44,7 +44,6 @@ oauth.register(
         "scope": "openid profile email",
     },
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
-
 )
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
@@ -52,7 +51,6 @@ oauth.register(
 #THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
 def get_db_connection():
     conn = sqlite3.connect('database.db')
-
     #do we do this one or use our schema???
     #conn.row_factory = sqlite3.Row
     return conn
@@ -109,8 +107,7 @@ def RemoveLikedArt(url_):
     #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
     #        (Id,title, url)
     #
-    cur.execute("DELETE FROM items WHERE url = 1")
-            
+    cur.execute("DELETE FROM items WHERE url like '%url_%'")
     connection.commit()
     connection.close()
 
@@ -121,23 +118,25 @@ RemoveLikedArt(Url)
 
 def FillUserEmail(email):
     connection = sqlite3.connect('users.db')
-    with open('emails.sql') as b:
-        connection.executescript(b.read())
+    with open('emails.sql') as x:
+        connection.executescript(x.read())
         cur = connection.cursor()
     cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('Example1@gmail.com'))
+        (email,))
     cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('Example2@gmail.com'))
+        ('example1@gmail.com',))
     cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('Example3@gmail.com'))
+        ('example2@gmail.com',))
     cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('Example4@gmail.com'))
+        ('example3@gmail.com',))
     cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('Example5@gmail.com'))
+        ('example4@gmail.com',))
+    cur.execute("INSERT INTO users (email) VALUES (?)",
+        ('example5@gmail.com',))
     connection.commit()
     connection.close()
-    email = "Admin3@gmail.com"
-    FillUserEmail(email)
+email = "GOLLYGWILIKERS@gmail.com"
+FillUserEmail(email)
 
 
 
@@ -238,7 +237,7 @@ def UserProfiles():
     #Email = session.userinfo.name
     Email = request.form.get("email")
     con = sqlite3.connect('likedArticles.db')
-    cursor = con.execute('SELECT id, title, url FROM items WHERE email LIKE EMAIL')
+    cursor = con.execute('SELECT id, title, url FROM items WHERE email = Email')
     items = cursor.fetchall()
     cursor.close()
 
@@ -284,6 +283,21 @@ def logout():
             quote_via=quote_plus,
         )
     )
+
+@app.route("/Admin")
+def Admin():
+    EMAIL = "noahwilliamshaffer"
+    con = sqlite3.connect('users.db')
+    cursor = con.execute('SELECT email, id, created  FROM users')
+    items = cursor.fetchall()
+    #return render_template('print_items.html', items=items)
+    cursor.close()
+    if EMAIL in  Admins:
+        return render_template("Admin.html",items = items, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    else:
+        return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+    
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 
 #@app.route("/Admin", methods =["GET", "POST"])
@@ -298,15 +312,18 @@ def home():
     #temp2 = temp['userinfo']
     #ids = temp2['sub']i
 
+    #add user email here
+    FillUserEmail(email)
+
 
     #connect to user emails here
     #con = sqlite3.connect('emails.db')
     #cursor = con.execute('SELECT email FROM users')
 
-    con = sqlite3.connect('likedArticles.db')
-    cursor = con.execute('SELECT title,email,url FROM items')
-    #con = sqlite3.connect('users.db')
-    #cursor = con.execute('SELECT email, id, created  FROM items')
+    #con = sqlite3.connect('likedArticles.db')
+    #cursor = con.execute('SELECT title,email,url FROM items')
+    con = sqlite3.connect('users.db')
+    cursor = con.execute('SELECT email, id, created  FROM users')
     items = cursor.fetchall()
     #return render_template('print_items.html', items=items)
     cursor.close()
