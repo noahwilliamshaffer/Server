@@ -117,6 +117,30 @@ def RemoveLikedArt(url_):
 Url = "Url2"
 RemoveLikedArt(Url)
 
+
+
+def FillUserEmail(email):
+    connection = sqlite3.connect('users.db')
+    with open('emails.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
+    cur.execute("INSERT INTO users (email) VALUES (?)",
+        ('Example1@gmail.com'))
+    cur.execute("INSERT INTO users (email) VALUES (?)",
+        ('Example2@gmail.com'))
+    cur.execute("INSERT INTO users (email) VALUES (?)",
+        ('Example3@gmail.com'))
+    cur.execute("INSERT INTO users (email) VALUES (?)",
+        ('Example4@gmail.com'))
+    cur.execute("INSERT INTO users (email) VALUES (?)",
+        ('Example5@gmail.com'))
+    connection.commit()
+    connection.close()
+    email = "Admin3@gmail.com"
+    FillUserEmail(email)
+
+
+
 def FillLikedArt(name, email, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
@@ -154,7 +178,7 @@ def FillLikedArt(name, email, title, url):
 name ="noah"
 email = "Admin3@gmail.com"
 Title ="Title2"
-Url = "Url2"
+Url = "BINGOBANGO.com"
 FillLikedArt(name,email,Title,Url)
 
 
@@ -209,10 +233,12 @@ def UserProfiles():
         cursor = con.execute('DELETE FROM items WHERE id = ID')
         items = cursor.fetchall()
         cursor.close()
-
+        #BIG=session.get('user')
+        #Email = BIG.userinfo.name
+    #Email = session.userinfo.name
     Email = request.form.get("email")
     con = sqlite3.connect('likedArticles.db')
-    cursor = con.execute('SELECT id, title, url FROM items WHERE email = Email')
+    cursor = con.execute('SELECT id, title, url FROM items WHERE email LIKE EMAIL')
     items = cursor.fetchall()
     cursor.close()
 
@@ -270,9 +296,17 @@ def home():
     #userinfo = json.dumps(session.get("user"))
     #temp = json.loads(userinfo)
     #temp2 = temp['userinfo']
-    #ids = temp2['sub']
+    #ids = temp2['sub']i
+
+
+    #connect to user emails here
+    #con = sqlite3.connect('emails.db')
+    #cursor = con.execute('SELECT email FROM users')
+
     con = sqlite3.connect('likedArticles.db')
     cursor = con.execute('SELECT title,email,url FROM items')
+    #con = sqlite3.connect('users.db')
+    #cursor = con.execute('SELECT email, id, created  FROM items')
     items = cursor.fetchall()
     #return render_template('print_items.html', items=items)
     cursor.close()
