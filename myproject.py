@@ -100,7 +100,8 @@ Admins.append("noahwilliamshaffer@gmail.com")
 def RemoveLikedArt(url_):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
-    #do we do this one or sqlite3.Row???
+   
+   #do we do this one or sqlite3.Row???
     #with open('artSchema.sql') as b:
     #    connection.executescript(b.read())
     cur = connection.cursor()
@@ -118,25 +119,25 @@ RemoveLikedArt(Url)
 
 def FillUserEmail(email):
     connection = sqlite3.connect('users.db')
-    with open('emails.sql') as x:
-        connection.executescript(x.read())
-        cur = connection.cursor()
-    cur.execute("INSERT INTO users (email) VALUES (?)",
+   # with open('emails.sql') as x:
+   #     connection.executescript(x.read())
+    cur = connection.cursor()
+    cur.execute("INSERT OR IGNORE INTO users (email) VALUES (?)",
         (email,))
-    cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('example1@gmail.com',))
-    cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('example2@gmail.com',))
-    cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('example3@gmail.com',))
-    cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('example4@gmail.com',))
-    cur.execute("INSERT INTO users (email) VALUES (?)",
-        ('example5@gmail.com',))
+    #cur.execute("INSERT OR IGNORE INTO users (email) VALUES (?)",
+    #    ('example1@gmail.com',))
+    #cur.execute("INSERT  OR IGNORE INTO users (email) VALUES (?)",
+    #    ('example2@gmail.com',))
+    #cur.execute("INSERT  OR IGNORE INTO users (email) VALUES (?)",
+    #    ('example3@gmail.com',))
+    #cur.execute("INSERT  OR IGNORE INTO users (email) VALUES (?)",
+    #    ('example4@gmail.com',))
+    #cur.execute("INSERT  OR IGNORE INTO users (email) VALUES (?)",
+    #    ('example5@gmail.com',))
     connection.commit()
     connection.close()
-email = "GOLLYGWILIKERS@gmail.com"
-FillUserEmail(email)
+#email = "GOLLYGWILIKERS@gmail.com"
+#FillUserEmail(email)
 
 def initLikedArt():
     connection = sqlite3.connect('likedArticles.db')
@@ -153,41 +154,41 @@ def FillLikedArt(name, email, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
     #do we do this one or sqlite3.Row???
-    #with open('artSchema.sql') as b:
-    #    connection.executescript(b.read())
-    cur = connection.cursor()
+    with open('artSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
     #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
     #        (Id,title, url)
     #      
-    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+    cur.execute("INSERT  OR IGNORE INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
         (name,email, title, url)
             )
-    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
-        (111111,'Example5@gmail.com', 'TITLE1', 'www.example1.com')
-            )
+   # cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+   #     (111111,'Example5@gmail.com', 'TITLE1', 'www.example1.com')
+   #         )
  
-    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?,?, ?, ?)",
-            (222222,'Example5@gmail.com', 'TITLE2', 'www.example2.com')
-            )
+   # cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?,?, ?, ?)",
+   #         (222222,'Example5@gmail.com', 'TITLE2', 'www.example2.com')
+   #         )
  
-    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
-            (222222,'Example5@gmail.com', 'TITLE3', 'www.example3.com')
-            )
+   # cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+   #         (222222,'Example5@gmail.com', 'TITLE3', 'www.example3.com')
+   #         )
  
-    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
-            (333333,'Example5@gmail.com', 'TITLE4', 'www.example4.com')
-            )
+   # cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+    #        (333333,'Example5@gmail.com', 'TITLE4', 'www.example4.com')
+    #        )
  
-    cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
-            (333333, 'Example5@gmail.com', 'TITLE5', 'www.example5.com')
-            )
+    #cur.execute("INSERT INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+    #        (333333, 'Example5@gmail.com', 'TITLE5', 'www.example5.com')
+    #        )
     connection.commit()
     connection.close()
-name ="noah"
-email = "Admin3@gmail.com"
-Title ="Title2"
-Url = "BINGOBANGO.com"
-FillLikedArt(name,email,Title,Url)
+#name ="noah"
+#email = "Admin3@gmail.com"
+#Title ="Title2"
+#Url = "BINGOBANGO.com"
+#FillLikedArt(name,email,Title,Url)
 
 
 def FillDataBase():
@@ -272,7 +273,19 @@ def login():
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+    #session["email"] = token
+    #print["email"]
     print("user")
+    #Email = "yes@gmail.com"
+    BIG = json.dumps(session.get("user"))
+    BIGGER = json.loads(BIG)
+    BIGGEST = BIGGER['userinfo']
+    EMAIL = BIGGEST['email']
+
+
+    #add user email here
+    FillUserEmail(EMAIL)
+    #FillUserEmail(Email)
     return redirect("/")
    #return render_template for news.html insted of call back so that the user is logged into the news page
    # return redirect(("/")+ render_template("news.html")) 
@@ -321,14 +334,14 @@ def Profile():
 
 @app.route("/", methods =["GET", "POST"]) #Add a post request
 def home():
-    Email = "noahwilliamshaffer@gmail.com"
+    #Email = "BIGGER@gmail.com"
     #userinfo = json.dumps(session.get("user"))
     #temp = json.loads(userinfo)
     #temp2 = temp['userinfo']
     #ids = temp2['sub']i
 
     #add user email here
-    #FillUserEmail(email)
+    #FillUserEmail(Email)
 
 
     #connect to user emails here
