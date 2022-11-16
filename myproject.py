@@ -426,6 +426,10 @@ def disliked():
         email = "ThisWorks@gmail.com"
         name ="Working"
         FillDislikedArt(name, email, title, url)
+    form = AddLike()
+    Email = "Admin2@gmail.com"
+    Title ="Title"
+    Url = "Url"
     titles_arr = []
     urls_arr = []
     #I DONT KNOW WHY THIS IS COMMENTED OUT I REMEMBER NEEDING TO USE THIS
@@ -500,18 +504,18 @@ def liked():
 #Art = conn.execute('SELECT * FROM Art').fetchall()
 #conn.close()
 def show_top_ten():
-    if request.method == "POST":
+    #if request.method == "POST":
        # getting input with name = fname in HTML form
-        title = request.form.get("title")
+    #    title = request.form.get("title")
        # getting input with name = lname in HTML form
-        url = request.form.get("url")
+    #    url = request.form.get("url")
         #email = requests.form.get("email")
         #name = request.form.get("name")
         
         #SET NAME AND EMAIL PYTHON SIDE
-        email = "ThisWorks@gmail.com"
-        name ="Working"
-        FillLikedArt(name, email, title, url)
+    #    email = "ThisWorks@gmail.com"
+    #    name ="Working"
+    #    FillLikedArt(name, email, title, url)
     form = AddLike()
     Email = "Admin2@gmail.com"
     Title ="Title"
