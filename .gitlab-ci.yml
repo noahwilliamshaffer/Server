@@ -5,7 +5,7 @@
 # Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
-image: "python:3.7"
+image: "python:latest"
 
 before_script:
   - python --version
@@ -15,17 +15,32 @@ stages:
   - Static Analysis
   - Test
 
+mypy:
+  stage: Static Analysis
+  - pwd
+  - ls -l
+  - python -m mypy ProjectFiles/myproject.py
+
 flake8:
   stage: Static Analysis
   script:
-  - flake8 --max-line-length=120 bild/*.py
+  - flake8 --max-line-length=120 ProjectFiles/myproject.py
+  # it will be all .py files once its cleaned up.
+  pylint:
+  stage: Static Analysis
+  allow_failure: true
+  script:
+  - pylint -d C0301 ProjectFiles/myproject.py
+  # it will be all .py files once its cleaned up.
+
 
 pytest:
   stage: Test
   script:
     -pytest
-
-script:
+connectionTest:
+  stage: Test
+  script:
     - curl - v https://www.noahwilliamshaffer.com
 
 sast:
