@@ -58,7 +58,6 @@ def get_db_connection():
 #should be called everytime a user likes a post
 Admins = []
 Admins.append("noahwilliamshaffer@gmail.com")
-
 #def FillUser(Id, name, email):
     #email = "Admin@gmail.com"
     #name = "UsersName"
@@ -161,6 +160,21 @@ def initDisikedArt():
     connection.close()
 initLikedArt()
 
+def FilliDislikedArt(name, email, title, url):
+    #liked articles unique to each user
+    connection = sqlite3.connect('dislikedArticles.db')
+    #do we do this one or sqlite3.Row???
+    with open('disartSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
+    #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
+    #        (Id,title, url)
+    #      
+    cur.execute("INSERT  OR IGNORE INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+        (name,email, title, url)
+            )
+    connection.commit()
+    connection.close()
 
 def FillLikedArt(name, email, title, url):
     #liked articles unique to each user
@@ -397,6 +411,82 @@ def home():
 
 #return render_template("Liked.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
+
+@app.route("/disliked", methods =["GET", "POST"])
+def disliked():
+    if request.method == "POST":
+       # getting input with name = fname in HTML form
+        title = request.form.get("title")
+       # getting input with name = lname in HTML form
+        url = request.form.get("url")
+        #email = requests.form.get("email")
+        #name = request.form.get("name")
+
+        #SET NAME AND EMAIL PYTHON SIDE
+        email = "ThisWorks@gmail.com"
+        name ="Working"
+        FillDislikedArt(name, email, title, url)
+    titles_arr = []
+    urls_arr = []
+    #I DONT KNOW WHY THIS IS COMMENTED OUT I REMEMBER NEEDING TO USE THIS
+    #connection = sqlite3.connect('database.db')
+    #with open('schema.sql') as f:
+    #    connection.executescript(f.read())
+    #    cur = connection.cursor()
+    conn = get_db_connection()
+    titles = conn.execute('SELECT title  FROM Art').fetchall()
+    urls = conn.execute('SELECT url  FROM Art').fetchall()
+    conn.close()
+
+    titles_arr = [i[0] for i in titles]
+    urls_arr = [i[0] for i in urls]
+    #for row in titles:
+     #   titles_arr.append(row[x])
+
+    #for row in urls:
+     #   urls_arr.append(row[y])
+   # output = request.form.to_dict()
+    #title = output["title"]
+        #makes the variables available in the html file that this route points to
+    return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr,form = form, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+@app.route("/liked", methods =["GET", "POST"])
+def liked():
+    if request.method == "POST":
+       # getting input with name = fname in HTML form
+        title = request.form.get("title")
+       # getting input with name = lname in HTML form
+        url = request.form.get("url")
+        #email = requests.form.get("email")
+        #name = request.form.get("name")
+
+        #SET NAME AND EMAIL PYTHON SIDE
+        email = "ThisWorks@gmail.com"
+        name ="Working"
+        FillLikedArt(name, email, title, url)
+    titles_arr = []
+    urls_arr = []
+    #I DONT KNOW WHY THIS IS COMMENTED OUT I REMEMBER NEEDING TO USE THIS
+    #connection = sqlite3.connect('database.db')
+    #with open('schema.sql') as f:
+    #    connection.executescript(f.read())
+    #    cur = connection.cursor()
+    conn = get_db_connection()
+    titles = conn.execute('SELECT title  FROM Art').fetchall()
+    urls = conn.execute('SELECT url  FROM Art').fetchall()
+    conn.close()
+
+    titles_arr = [i[0] for i in titles]
+    urls_arr = [i[0] for i in urls]
+    #for row in titles:
+     #   titles_arr.append(row[x])
+
+    #for row in urls:
+     #   urls_arr.append(row[y])
+   # output = request.form.to_dict()
+    #title = output["title"]
+        #makes the variables available in the html file that this route points to
+    return render_template("news.html",titles_arr = titles_arr,urls_arr = urls_arr,form = form, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news", methods =["GET", "POST"])
