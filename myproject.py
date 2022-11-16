@@ -254,10 +254,61 @@ def Like():
     return redirect("/news")
 
 
-@app.route('/remove', methods=['GET', 'POST'])
-def remove():
-    output = request.form.to_dict()
-    name = output["name"]
+
+@app.route('/removeDislike', methods=['GET', 'POST'])
+def removeDislike():
+    ID = request.form.get("id")
+    con = sqlite3.connect('dislikedArticles.db')
+    cursor = con.execute('DELETE FROM items WHERE id = ID')
+    items = cursor.fetchall()
+    cursor.close()
+
+    Email = request.form.get("email")
+    con = sqlite3.connect('likedArticles.db')
+    cursor = con.execute('SELECT id, email, title, url FROM items')
+    items = cursor.fetchall()
+    cursor.close()
+
+    Email = request.form.get("email")
+    dcon = sqlite3.connect('dislikedArticles.db')
+    cursor = dcon.execute('SELECT id, email,title, url FROM items')
+    Ditems = cursor.fetchall()
+    cursor.close()
+
+    BIG = json.dumps(session.get("user"))
+    BIGGER = json.loads(BIG)
+    BIGGEST = BIGGER['userinfo']
+    EMAIL = BIGGEST['email']
+    if EMAIL in Admins:
+        return render_template("UserProfiles.html",email = Email,items = items,Ditems = Ditems, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+@app.route('/removeLike', methods=['GET', 'POST'])
+def removeLike():
+    ID = request.form.get("id")
+    con = sqlite3.connect('likedArticles.db')
+    cursor = con.execute('DELETE FROM items WHERE id = ID')
+    items = cursor.fetchall()
+    cursor.close()
+
+    Email = request.form.get("email")
+    con = sqlite3.connect('likedArticles.db')
+    cursor = con.execute('SELECT id, email, title, url FROM items')
+    items = cursor.fetchall()
+    cursor.close()
+
+    Email = request.form.get("email")
+    dcon = sqlite3.connect('dislikedArticles.db')
+    cursor = dcon.execute('SELECT id, email,title, url FROM items')
+    Ditems = cursor.fetchall()
+    cursor.close()
+
+    BIG = json.dumps(session.get("user"))
+    BIGGER = json.loads(BIG)
+    BIGGEST = BIGGER['userinfo']
+    EMAIL = BIGGEST['email']
+    if EMAIL in Admins:
+        return render_template("UserProfiles.html",email = Email,items = items,Ditems = Ditems, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
 
 @app.route("/UserProfiles", methods =["GET", "POST"])
 def UserProfiles():
