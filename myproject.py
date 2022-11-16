@@ -273,15 +273,22 @@ def UserProfiles():
     #Email = session.userinfo.name
     Email = request.form.get("email")
     con = sqlite3.connect('likedArticles.db')
-    cursor = con.execute('SELECT id, title, url FROM items WHERE email = Email')
+    cursor = con.execute('SELECT id, email, title, url FROM items')
     items = cursor.fetchall()
     cursor.close()
+    
+    Email = request.form.get("email")
+    dcon = sqlite3.connect('dislikedArticles.db')
+    cursor = dcon.execute('SELECT id, email,title, url FROM items')
+    Ditems = cursor.fetchall()
+    cursor.close()
+
     BIG = json.dumps(session.get("user"))
     BIGGER = json.loads(BIG)
     BIGGEST = BIGGER['userinfo']
     EMAIL = BIGGEST['email']
     if EMAIL in Admins:
-        return render_template("UserProfiles.html",email = Email,items = items, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+        return render_template("UserProfiles.html",email = Email,items = items,Ditems = Ditems, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
 #APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route('/database')

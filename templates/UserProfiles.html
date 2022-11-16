@@ -17,7 +17,7 @@
 	<h1>LIKES</h1>
 	{% for item in items %}
 <tr>
-	<td> ID: {{item[0]}} TITLE: {{item[1]}} URL: {{item[2]}} {{item[3]}} <form class "grid" action ="" method = "POST">
+	<td> ID: {{item[0]}} EMAIL: {{item[1]}} TITLE: {{item[2]}} URL: {{item[3]}} <form class "grid" action ="" method = "POST">
          <center>
         </center>
         <input type="hidden" value={{item[0]}} name="id">
@@ -27,6 +27,16 @@
 {% endfor %}
 
 	<h1>DISLIKES</h1>
+	{% for Ditem in Ditems %}
+<tr>
+        <td> ID: {{Ditem[0]}} EMAIL: {{Ditem[1]}} TITLE: {{Ditem[2]}} URL: {{Ditem[3]}} <form class "grid" action ="" method = "POST">
+         <center>
+        </center>
+        <input type="hidden" value={{Ditem[0]}} name="id">
+        <input type="submit" name="{{Ditem[0]}}"  value="{{Ditem[0]}}">
+        </form> </td>
+</td>
+{% endfor %}
       </nav>   
       </nav>
   </header>
