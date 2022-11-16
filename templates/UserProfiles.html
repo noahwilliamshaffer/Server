@@ -14,7 +14,7 @@
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp;
         <h1>Welcome Admin{{session.userinfo.name}}!</h1>
 	 <h1>User Profiles</h1>
-	<h1>{{email}}</h1>
+	<h1>LIKES</h1>
 	{% for item in items %}
 <tr>
 	<td> ID: {{item[0]}} TITLE: {{item[1]}} URL: {{item[2]}} {{item[3]}} <form class "grid" action ="" method = "POST">
@@ -25,6 +25,8 @@
         </form> </td>
 </td>
 {% endfor %}
+
+	<h1>DISLIKES</h1>
       </nav>   
       </nav>
   </header>
