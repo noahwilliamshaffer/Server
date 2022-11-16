@@ -263,6 +263,24 @@ def removeDislike():
     items = cursor.fetchall()
     cursor.close()
 
+
+    #ID = request.form.get("id")
+    #con = sqlite3.connect('likedArticles.db')
+    #cursor = con.execute('DELETE FROM items WHERE id = ID')
+    #items = cursor.fetchall()
+    #cursor.close()
+    #sql = 'DELETE FROM items WHERE id like ?'
+    #ID = request.form.get("id")
+    #con = sqlite3.connect('dislikedArticles.db')
+    #cursor = con.cursor()
+    #cursor = con.execute("DELETE FROM items WHERE id = (id,) VALUES (?,)", (ID,)) 
+    #cur.execute(sql, (id,))
+     #cur.execute("INSERT OR IGNORE INTO likedArt (ID,title, url) VALUES (?,?, ?)",
+    #        (Id,title, url)
+    #items = cursor.fetchall()
+    #cursor.close()
+    #con.commit()
+
     Email = request.form.get("email")
     con = sqlite3.connect('likedArticles.db')
     cursor = con.execute('SELECT id, email, title, url FROM items')
