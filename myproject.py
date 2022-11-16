@@ -150,6 +150,18 @@ def initLikedArt():
     connection.close()
 initLikedArt()
 
+def initDisikedArt():
+    connection = sqlite3.connect('dislikedArticles.db')
+    #do we do this one or sqlite3.Row???
+    with open('disArtSchema.sql') as b:
+        connection.executescript(b.read())
+        cur = connection.cursor()
+
+    connection.commit()
+    connection.close()
+initLikedArt()
+
+
 def FillLikedArt(name, email, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('likedArticles.db')
