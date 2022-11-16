@@ -17,6 +17,7 @@ stages:
 
 mypy:
   stage: Static Analysis
+  script:
   - pwd
   - ls -l
   - python -m mypy ProjectFiles/myproject.py
@@ -26,11 +27,12 @@ flake8:
   script:
   - flake8 --max-line-length=120 ProjectFiles/myproject.py
   # it will be all .py files once its cleaned up.
+
   pylint:
-  stage: Static Analysis
-  allow_failure: true
-  script:
-  - pylint -d C0301 ProjectFiles/myproject.py
+    stage: Static Analysis
+    allow_failure: true
+    script:
+    - pylint -d C0301 ProjectFiles/myproject.py
   # it will be all .py files once its cleaned up.
 
 
