@@ -464,6 +464,10 @@ def liked():
         email = "ThisWorks@gmail.com"
         name ="Working"
         FillLikedArt(name, email, title, url)
+    form = AddLike()
+    Email = "Admin2@gmail.com"
+    Title ="Title"
+    Url = "Url"
     titles_arr = []
     urls_arr = []
     #I DONT KNOW WHY THIS IS COMMENTED OUT I REMEMBER NEEDING TO USE THIS
