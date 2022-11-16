@@ -160,7 +160,7 @@ def initDisikedArt():
     connection.close()
 initLikedArt()
 
-def FilliDislikedArt(name, email, title, url):
+def FillDislikedArt(name, email, title, url):
     #liked articles unique to each user
     connection = sqlite3.connect('dislikedArticles.db')
     #do we do this one or sqlite3.Row???
