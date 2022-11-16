@@ -63,6 +63,16 @@
 	    <input type="hidden" value={{session.userinfo.email}} name="email">
 	    <input type="submit" name="like"  value="like">
         </form>
+	 <form class "grid" action ="/disliked" method = "POST">
+         <center>
+        </center>
+            <input type="hidden" value={{titles_arr[x]}} name="title">
+            <input type="hidden" value={{urls_arr[x]}} name="url">
+            <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
+            <input type="hidden" value={{session.userinfo.email}} name="email">
+            <input type="submit" name="dislike"  value="dislike">
+        </form>
+
        	 	 {% endfor%}
       </nav>
 
