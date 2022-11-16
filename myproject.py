@@ -423,9 +423,12 @@ def disliked():
         #name = request.form.get("name")
 
         #SET NAME AND EMAIL PYTHON SIDE
-        email = "ThisWorks@gmail.com"
+        BIG = json.dumps(session.get("user"))
+        BIGGER = json.loads(BIG)
+        BIGGEST = BIGGER['userinfo']
+        EMAIL = BIGGEST['email']
         name ="Working"
-        FillDislikedArt(name, email, title, url)
+        FillDislikedArt(name, EMAIL, title, url)
     form = AddLike()
     Email = "Admin2@gmail.com"
     Title ="Title"
@@ -465,9 +468,12 @@ def liked():
         #name = request.form.get("name")
 
         #SET NAME AND EMAIL PYTHON SIDE
-        email = "ThisWorks@gmail.com"
+        BIG = json.dumps(session.get("user"))
+        BIGGER = json.loads(BIG)
+        BIGGEST = BIGGER['userinfo']
+        EMAIL = BIGGEST['email']
         name ="Working"
-        FillLikedArt(name, email, title, url)
+        FillLikedArt(name, EMAIL, title, url)
     form = AddLike()
     Email = "Admin2@gmail.com"
     Title ="Title"
