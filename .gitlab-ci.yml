@@ -46,6 +46,6 @@ connectionTest:
     - curl - v https://www.noahwilliamshaffer.com
 
 sast:
-  stage: test
+  stage: Test
 include:
 - template: Security/SAST.gitlab-ci.yml
