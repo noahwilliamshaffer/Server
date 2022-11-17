@@ -20,7 +20,7 @@
 	<td> ID: {{item[0]}} EMAIL: {{item[1]}} TITLE: {{item[2]}} URL: {{item[3]}} <form class "grid" action ="/removeLike" method = "POST">
          <center>
         </center>
-        <input type="hidden" value={{item[0]}} name="id">
+        <input type="hidden" value="{{item[0]}}" name="id">
 	<input type="submit" name="{{item[0]}}"  value="{{item[0]}}">
         </form> </td>
 </td>
@@ -32,7 +32,7 @@
         <td> ID: {{Ditem[0]}} EMAIL: {{Ditem[1]}} TITLE: {{Ditem[2]}} URL: {{Ditem[3]}} <form class "grid" action ="/removeDislike" method = "POST">
          <center>
         </center>
-        <input type="hidden" value={{Ditem[0]}} name="id">
+        <input type="hidden" value="{{Ditem[0]}}" name="id">
         <input type="submit" name="{{Ditem[0]}}"  value="{{Ditem[0]}}">
         </form> </td>
 </td>

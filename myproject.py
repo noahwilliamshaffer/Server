@@ -58,6 +58,7 @@ def get_db_connection():
 #should be called everytime a user likes a post
 Admins = []
 Admins.append("noahwilliamshaffer@gmail.com")
+Admins.append("mmk20a@fsu.edu")
 #def FillUser(Id, name, email):
     #email = "Admin@gmail.com"
     #name = "UsersName"
@@ -258,9 +259,13 @@ def Like():
 @app.route('/removeDislike', methods=['GET', 'POST'])
 def removeDislike():
     ID = request.form.get("id")
+    #TITLE = request.form.get("title")
     con = sqlite3.connect('dislikedArticles.db')
-    cursor = con.execute('DELETE FROM items WHERE id = ID')
-    items = cursor.fetchall()
+    cursor = con.execute("DELETE FROM items WHERE id = " + ID + ";")
+    cursor = con.execute('SELECT id, email, title, url FROM items')
+    #cursor = con.execute("DELETE FROM items WHERE title = " + TITLE + ";")
+    #cursor = con.execute('DELETE FROM items WHERE id = ID')
+    Ditems = cursor.fetchall()
     cursor.close()
 
 
@@ -287,24 +292,26 @@ def removeDislike():
     items = cursor.fetchall()
     cursor.close()
 
-    Email = request.form.get("email")
-    dcon = sqlite3.connect('dislikedArticles.db')
-    cursor = dcon.execute('SELECT id, email,title, url FROM items')
-    Ditems = cursor.fetchall()
-    cursor.close()
+    #Email = request.form.get("email")
+    #dcon = sqlite3.connect('dislikedArticles.db')
+    #cursor = dcon.execute('SELECT id, email,title, url FROM items')
+    #Ditems = cursor.fetchall()
+    #cursor.close()
 
     BIG = json.dumps(session.get("user"))
     BIGGER = json.loads(BIG)
     BIGGEST = BIGGER['userinfo']
     EMAIL = BIGGEST['email']
     if EMAIL in Admins:
-        return render_template("UserProfiles.html",email = Email,items = items,Ditems = Ditems, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+        return render_template("UserProfiles.html",email = EMAIL,items = items,Ditems = Ditems, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route('/removeLike', methods=['GET', 'POST'])
 def removeLike():
     ID = request.form.get("id")
+    TITLE = request.form.get("title")
     con = sqlite3.connect('likedArticles.db')
-    cursor = con.execute('DELETE FROM items WHERE id = ID')
+    cursor = con.execute("DELETE FROM items WHERE id = " + ID + ";")
+    #cursor = con.execute("DELETE FROM items WHERE title = " + TITLE + ";")
     items = cursor.fetchall()
     cursor.close()
 
@@ -330,13 +337,14 @@ def removeLike():
 
 @app.route("/UserProfiles", methods =["GET", "POST"])
 def UserProfiles():
-    if request.method == "POST":
+    #if request.method == "POST":
        # getting input with name = fname in HTML form
-        ID = request.form.get("id")
-        con = sqlite3.connect('likedArticles.db')
-        cursor = con.execute('DELETE FROM items WHERE id = ID')
-        items = cursor.fetchall()
-        cursor.close()
+     #   ID = request.form.get("id")
+     #   con = sqlite3.connect('likedArticles.db')
+     #   cursor = con.execute("DELETE FROM items WHERE id" + ID + ";")
+        #cursor = con.execute('DELETE FROM items WHERE id = ID')
+     #   items = cursor.fetchall()
+     #   cursor.close()
         #BIG=session.get('user')
         #Email = BIG.userinfo.name
     #Email = session.userinfo.name
@@ -358,6 +366,8 @@ def UserProfiles():
     EMAIL = BIGGEST['email']
     if EMAIL in Admins:
         return render_template("UserProfiles.html",email = Email,items = items,Ditems = Ditems, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    else:
+        return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 #the index function contains the way to call the html file that will be using the data being heald in our database ex
 #APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route('/database')
@@ -492,9 +502,9 @@ def home():
 def disliked():
     if request.method == "POST":
        # getting input with name = fname in HTML form
-        title = request.form.get("title")
+        title = request.form["title"]
        # getting input with name = lname in HTML form
-        url = request.form.get("url")
+        url = request.form["url"]
         #email = requests.form.get("email")
         #name = request.form.get("name")
 
@@ -537,9 +547,10 @@ def disliked():
 def liked():
     if request.method == "POST":
        # getting input with name = fname in HTML form
-        title = request.form.get("title")
+        title = request.form["title"]
+
        # getting input with name = lname in HTML form
-        url = request.form.get("url")
+        url = request.form["url"]
         #email = requests.form.get("email")
         #name = request.form.get("name")
 
