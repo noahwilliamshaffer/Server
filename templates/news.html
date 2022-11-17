@@ -49,24 +49,17 @@
 	<p><input type="submit" value = "Like" /></p>
 
 	{% for x in range(0,30)%}
-		<h3><a href="{{urls_arr[x]}}">{{titles_arr[x]}}</a> <button class = "like_btn">
-                <span id ="icon"> <i class="fa-regular fa-thumbs-up"></i> </span>
-                <span id = "count"> 0 </span> like
-        </button><h3>
-        </button>
+		<h3><a href="{{urls_arr[x]}}">{{titles_arr[x]}}</a>
      	<form class "grid" action ="/liked" method = "POST">
-         <center>
-        </center>
-	    <input type="hidden" value={{titles_arr[x]}} name="title">
+	    <input type="hidden" value='{{titles_arr[x]}}' name="title">
 	    <input type="hidden" value={{urls_arr[x]}} name="url">
 	    <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
 	    <input type="hidden" value={{session.userinfo.email}} name="email">
 	    <input type="submit" name="like"  value="like">
         </form>
+
 	 <form class "grid" action ="/disliked" method = "POST">
-         <center>
-        </center>
-            <input type="hidden" value={{titles_arr[x]}} name="title">
+            <input type="hidden" value='{{titles_arr[x]}}' name="title">
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
