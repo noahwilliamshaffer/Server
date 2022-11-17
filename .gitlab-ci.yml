@@ -28,11 +28,11 @@ flake8:
   - flake8 --max-line-length=120 ProjectFiles/myproject.py
   # it will be all .py files once its cleaned up.
 
-  pylint:
-    stage: Static Analysis
-    allow_failure: true
-    script:
-    - pylint -d C0301 ProjectFiles/myproject.py
+pylint:
+  stage: Static Analysis
+  allow_failure: true
+  script:
+   - pylint -d C0301 ProjectFiles/myproject.py
   # it will be all .py files once its cleaned up.
 
 
