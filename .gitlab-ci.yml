@@ -34,12 +34,16 @@ pylint:
   script:
    - pylint -d C0301 ProjectFiles/myproject.py
   # it will be all .py files once its cleaned up.
-
-
+# the unit test report
 pytest:
-  stage: Test
+  stage: test
   script:
-    -pytest
+    - pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+
 connectionTest:
   stage: Test
   script:
