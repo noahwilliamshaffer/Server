@@ -11,6 +11,9 @@ from wtforms.validators import DataRequired, Length, email, EqualTo
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for, request
+#from apscheduler.schedulers.background import BackgroundScheduler
+#from flask import Flask
+
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -42,6 +45,11 @@ oauth.register(
     },
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
 )
+#Repull the articles every hour
+
+#clear the liked and disliked articles every 24
+
+
 
 #get_db_connection is used to make a connection to the database to be able to pull data
 #THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
