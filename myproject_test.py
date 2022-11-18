@@ -1,47 +1,52 @@
-import pytest
-import os
-import tempfile
-#important part of test ^
-#import sqlite3
-#import requests
-#import http.client
-#import json
-#from os import environ as env
-#from urllib.parse import quote_plus, urlencode
-#from flask_wtf import FlaskForm
-#from wtforms import StringField, PasswordField, SubmitField
-#from wtforms.validators import DataRequired, Length, email, EqualTo
-#from authlib.integrations.flask_client import OAuth
-#from dotenv import find_dotenv, load_dotenv
-#from flask import Flask, redirect, render_template, session, url_for, request
+from myproject import app # Flask instance of the API
+
+def test_index_route():
+    response = app.test_client().get('/')
+
+    assert response.status_code == 200
+    #assert response.data.decode('utf-8') == 'Testing, Flask!'
+
+def test_login_route():
+    response = app.test_client().get('/login')
+   # login is a redirect
+    assert response.status_code == 302
 
 
+def test_loginout_route():
+    response = app.test_client().get('/logout')
+   # logout is a redirect
+    assert response.status_code == 302
 
-from myproject import myproject
+def test_news_route():
+    response = app.test_client().get('/news')
+
+    assert response.status_code == 200
+
+def test_Admin_route():
+    response = app.test_client().get('/UserProfiles')
+
+    assert response.status_code == 200
+
+def test_profile_route():
+    response = app.test_client().get('/Profile')
+
+    assert response.status_code == 200
+
+def test_Database ():
+    ID = 1
+    con = sqlite3.connect('dislikedArticles.db')
+    cursor = con.execute('DELETE FROM items WHERE id IN (1)')
+    items = cursor.fetchall()
+    cursor.close()
+    
+    Email = 1
+    con = sqlite3.connect('likedArticles.db')
+    cursor = con.execute('SELECT id, email, title, url FROM items')
+    items = cursor.fetchall()
+    cursor.close()
+
+    assert response.status_code
+    
+    
 
 
-@pytest.fixture
-def client():
-    db_fd, myproject.app.config['DATABASE'] = tempfile.mkstemp()
-    myproject.app.config['TESTING'] = True
-
-    with myproject.app.test_client() as client:
-        with myproject.app.app_context():
-            myproject.init_db()
-        yield client
-
-    os.close(db_fd)
-    os.unlink(myproject.app.config['DATABASE'])
-#
-def test_empty_db(client):
-    """Start with a blank database."""
-
-    rv = client.get('/')
-    assert b'No entries here so far' in rv.data
-
-
-ID = 1
-con = sqlite3.connect('dislikedArticles.db')
-cursor = con.execute('DELETE FROM items WHERE id IN (1)')
-items = cursor.fetchall()
-cursor.close()
