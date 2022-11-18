@@ -217,7 +217,7 @@ def FillLikedArt(name, email, title, url):
 #Url = "BINGOBANGO.com"
 #FillLikedArt(name,email,Title,Url)
 
-
+#needs fixed
 def FillDataBase():
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
@@ -403,6 +403,10 @@ def callback():
     session["user"] = token
     #session["email"] = token
     #print["email"]
+
+    #Delete the database every 24 hours
+    #call this every hour
+    #FillDataBase() -------------------------------------------------------------------------------------------------------------------------------------
     print("user")
     #Email = "yes@gmail.com"
     BIG = json.dumps(session.get("user"))
