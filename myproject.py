@@ -11,7 +11,7 @@ from wtforms.validators import DataRequired, Length, email, EqualTo
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for, request
-#from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 #from flask import Flask
 
 
@@ -25,6 +25,9 @@ app.secret_key = env.get("APP_SECRET_KEY")
 oauth = OAuth(app)
 
 app.config['SECRET_KEY']  = 'BINGBONG'
+
+
+
 class AddLike(FlaskForm):
     title = StringField('Title')
     email = StringField('Email')
@@ -35,6 +38,7 @@ class AddLike(FlaskForm):
 class RemoveLike(FlaskForm):
     url = StringField('url')
     submit = SubmitField('Remove')
+
 
 oauth.register(
     "auth0",
@@ -50,6 +54,47 @@ oauth.register(
 #clear the liked and disliked articles every 24
 
 
+def ClearAndFIllArticleDatabase():
+    connection = sqlite3.connect('database.db')
+
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+        cur = connection.cursor()
+
+    
+    cur.execute("DELETE FROM  Art")
+            
+
+    connection.commit()
+    connection.close()
+    FillDataBase()
+
+
+def ClearLikedArt():
+    connection = sqlite3.connect('likedArticles.db')
+
+    cur = connection.cursor()
+    cur.execute(" DELETE FROM items")
+    connection.commit()
+    connection.close()
+
+def ClearDislikedArt():
+    connection = sqlite3.connect('likedArticles.db')
+
+    cur = connection.cursor()
+    cur.execute(" DELETE FROM items")
+    connection.commit()
+    connection.close()
+
+def sensor():
+    """ Function for test purposes. """
+    print("Scheduler is alive!")
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(ClearLikedArt,'interval',minutes=60)
+sched.add_job(ClearDislikedArt,'interval',minutes=60)
+sched.add_job(ClearAndFIllArticleDatabase, 'interval', hours=24)
+sched.start()
 
 #get_db_connection is used to make a connection to the database to be able to pull data
 #THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
