@@ -39,6 +39,7 @@ class RemoveLike(FlaskForm):
     url = StringField('url')
     submit = SubmitField('Remove')
 
+
 oauth.register(
     "auth0",
     client_id=env.get("AUTH0_CLIENT_ID"),
@@ -53,6 +54,20 @@ oauth.register(
 #clear the liked and disliked articles every 24
 
 
+def ClearAndFIllArticleDatabase():
+    connection = sqlite3.connect('database.db')
+
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+        cur = connection.cursor()
+
+    
+    cur.execute("DELETE FROM  Art")
+            
+
+    connection.commit()
+    connection.close()
+    FillDataBase()
 
 
 def ClearLikedArt():
