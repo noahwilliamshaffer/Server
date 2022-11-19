@@ -50,21 +50,29 @@
 
 	{% for x in range(0,30)%}
 		<h3><a href="{{urls_arr[x]}}">{{titles_arr[x]}}</a>
-     	<form class "grid" action ="/liked" method = "POST">
-	    <input type="hidden" value='{{titles_arr[x]}}' name="title">
-	    <input type="hidden" value={{urls_arr[x]}} name="url">
-	    <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
-	    <input type="hidden" value={{session.userinfo.email}} name="email">
-	    <input type="submit" name="like"  value="like">
+	<form id = "{{titles_arr}}"  class "grid" action ="/liked" method = "POST">
+            <input type="hidden" value='{{titles_arr[x]}}' name="title">
+            <input type="hidden" value={{urls_arr[x]}} name="url">
+            <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
+            <input type="hidden" value={{session.userinfo.email}} name="email">
+            <input type="submit" name="like"  value="like">
         </form>
 
-	 <form class "grid" action ="/disliked" method = "POST">
+        <button class ="like" type = "submit" name = "like" form ="{{titles_arr}}">
+
+        </button>
+
+	<form id = "{{url_arr}}" class "grid" action ="/disliked" method = "POST">
             <input type="hidden" value='{{titles_arr[x]}}' name="title">
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
             <input type="submit" name="dislike"  value="dislike">
         </form>
+
+	<button class ="dislike" type = "submit" name = "dislike" form ="{{url_arr}}">
+
+        </button>
 
        	 	 {% endfor%}
       </nav>
