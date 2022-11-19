@@ -25,6 +25,9 @@ app.secret_key = env.get("APP_SECRET_KEY")
 oauth = OAuth(app)
 
 app.config['SECRET_KEY']  = 'BINGBONG'
+
+
+
 class AddLike(FlaskForm):
     title = StringField('Title')
     email = StringField('Email')
@@ -50,6 +53,13 @@ oauth.register(
 #clear the liked and disliked articles every 24
 
 
+def sensor():
+    """ Function for test purposes. """
+    print("Scheduler is alive!")
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(sensor,'interval',minutes=60)
+sched.start()
 
 #get_db_connection is used to make a connection to the database to be able to pull data
 #THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
