@@ -24,14 +24,17 @@
          <center>
         </center>
         <input type="hidden" value="{{item[0]}}" name="id">
-	<input type="submit" name="DELETE Like"  value="DELETEi Like">
-        </form> </td>
+	<input type="hidden" name="DELETE Like"  value="DELETEi Like">
+        </form> 
 
 
  <button id="removeLikes" class ="like" type = "submit" name = "like" form ="{{item[0]}}">
         <img src="/pix/web_graphics/free_website_graphics/icons/books/book13.gif"
         </button>
 	</td>
+
+</tr>
+
 {% endfor %}
 
 	<h1>DISLIKES</h1>
@@ -44,14 +47,15 @@
          <center>
         </center>
         <input type="hidden" value="{{Ditem[0]}}" name="id">
-        <input type="submit" name="DELETE Dislike"  value="DELETE Dislike">
-        </form> </td>
+        <input type="hidden" name="DELETE Dislike"  value="DELETE Dislike">
+        </form>
 
 	<button id="removeDisikes" class ="like" type = "submit" name = "like" form ="{{Ditem[1]}}">
         <img src="/pix/web_graphics/free_website_graphics/icons/books/book13.gif"
         </button>
 
 </td>
+</tr>
 {% endfor %}
       </nav>   
       </nav>
