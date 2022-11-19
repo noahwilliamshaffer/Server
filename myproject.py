@@ -93,6 +93,7 @@ def sensor():
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(ClearLikedArt,'interval',minutes=60)
 sched.add_job(ClearDislikedArt,'interval',minutes=60)
+sched.add_job(ClearAndFIllArticleDatabase, 'interval', hours=24)
 sched.start()
 
 #get_db_connection is used to make a connection to the database to be able to pull data
