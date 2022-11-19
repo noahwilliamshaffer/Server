@@ -49,19 +49,25 @@
 	<p><input type="submit" value = "Like" /></p>
 
 	{% for x in range(0,30)%}
-		<h3><a href="{{urls_arr[x]}}">{{titles_arr[x]}}</a>
+	<table style = "width :100%">
+	<tr>
+		
+		<td><h3><a href="{{urls_arr[x]}}">{{titles_arr[x]}}</a></td>
+
+	<td>
 	<form id = "{{titles_arr}}"  class "grid" action ="/liked" method = "POST">
             <input type="hidden" value='{{titles_arr[x]}}' name="title">
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
-            <input type="submit" name="like"  value="like">
+            <input type="hidden" name="like"  value="like">
         </form>
 
         <button class ="like" type = "submit" name = "like" form ="{{titles_arr}}">
-
+	<img src="/pix/web_graphics/free_website_graphics/icons/books/book13.gif"
         </button>
-
+	</td>
+	<td>
 	<form id = "{{url_arr}}" class "grid" action ="/disliked" method = "POST">
             <input type="hidden" value='{{titles_arr[x]}}' name="title">
             <input type="hidden" value={{urls_arr[x]}} name="url">
@@ -71,9 +77,12 @@
         </form>
 
 	<button class ="dislike" type = "submit" name = "dislike" form ="{{url_arr}}">
-
+	<img src="/pix/web_graphics/free_website_graphics/icons/books/book13.gif"
         </button>
+	</td>
 
+	</tr>
+	 </table>
        	 	 {% endfor%}
       </nav>
 
