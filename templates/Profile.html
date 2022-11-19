@@ -7,26 +7,7 @@
     {% if session %}
         <h1>USERNAME: {{session.userinfo.name}}!</h1>
 	<h1>EMAIL: {{session.userinfo.name}}!</h1>
-	  <form action ="#" method = "post">
-                <p>Name:</p>
-                <p>Email:</p>
-                <p><input type = "text" name = {{session.userinfo.name}} /></p>
-                <p><input type = "text" email = {{session.userinfo.email}} /></p>
-                <p><input type = "submit" value = "submit"/</p>
-        </form>
-
 	  <header>
-      <nav id="n1">
-        <img id="logo" src="Images/LogoMK.jpg" width="170" height="85"> &nbsp;&nbsp;
-        <a href="https://www.noahwilliamshaffer.com/news">News?</a> &nbsp;&nbsp;
-        <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
-  	<a href="https://www.noahwilliamshaffer.com/Admin">ADMIN</a> &nbsp;&nbsp;
-      </nav>
-  </header>
-  <div id="contactform">
-<h1> HackerNews login</h1>
-</div>
-
         <p><a href="/logout">Logout</a></p>
     {% endif %}
   </body>
