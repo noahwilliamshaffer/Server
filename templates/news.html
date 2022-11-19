@@ -68,15 +68,15 @@
         </button>
 	</td>
 	<td>
-	<form id = "{{url_arr}}" class "grid" action ="/disliked" method = "POST">
+	<form id = "{{urls_arr}}" class "grid" action ="/disliked" method = "POST">
             <input type="hidden" value='{{titles_arr[x]}}' name="title">
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
-            <input type="submit" name="dislike"  value="dislike">
+            <input type="hidden" name="dislike"  value="dislike">
         </form>
 
-	<button class ="dislike" type = "submit" name = "dislike" form ="{{url_arr}}">
+	<button class ="dislike" type = "submit" name = "dislike" form ="{{urls_arr}}">
 	<img src="/pix/web_graphics/free_website_graphics/icons/books/book13.gif"
         </button>
 	</td>
