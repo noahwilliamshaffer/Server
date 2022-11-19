@@ -79,16 +79,16 @@ def ClearLikedArt():
     connection.close()
 
 def ClearDislikedArt():
-    connection = sqlite3.connect('likedArticles.db')
+    connection = sqlite3.connect('dislikedArticles.db')
 
     cur = connection.cursor()
     cur.execute(" DELETE FROM items")
     connection.commit()
     connection.close()
 
-def sensor():
-    """ Function for test purposes. """
-    print("Scheduler is alive!")
+#def sensor():
+#    """ Function for test purposes. """
+#    print("Scheduler is alive!")
 
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(ClearLikedArt,'interval',minutes=60)
