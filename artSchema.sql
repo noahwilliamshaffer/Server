@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS items (
     email TEXT NOT NULL,
     title TEXT NOT NULL,
     url TEXT NOT NULL,
+    DL Text,
     FOREIGN KEY (list_id) REFERENCES usr (id)
 );

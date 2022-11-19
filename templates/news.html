@@ -61,12 +61,9 @@
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
-            <input type="hidden" name="like"  value="like">
+	    <input type ="hidden" value ="LIKED" name = "U">
+            <input type="submit" name="like"  value="like">
         </form>
-
-        <button id="Like" class ="like" type = "submit" name = "like" form ="{{titles_arr}}">
-	<input type = "submit" value = like>
-        </button>
 	</td>
 	<td>
 	<form id = "{{urls_arr}}" class "grid" action ="/disliked" method = "POST">
@@ -74,12 +71,9 @@
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
-            <input type="hidden" name="dislike"  value="dislike">
+	    <input type ="hidden" value ="LIKED" name = "U">
+            <input type="submit" name="dislike"  value="dislike">
         </form>
-
-	<button  id="Dislike" class ="dislike" type = "submit" name = "dislike" form ="{{urls_arr}}">
-         <input type = "submit" value = dislike>
-	</button>
 	</td>
 
 	</tr>
