@@ -4,51 +4,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> like button </title>
-  <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
   <link rel="stylesheet" type="text/css" href="Style.css">
    <script type="text/javascript" src="news.js"></script>
   <title>HACKER NEWS</title>
 </head>
 <body style="background-color:#f5f5f5">
- <form class "grid" action ="/Liked" method = "POST">
-	 <center>
-	</center>
-	<input type = "button" name = "likeButton" value  = "like">
-	</form>
-		
-                <p>Name:</p>
-                <p>Email:</p>
-                <p><input type = "text" name = {{session.userinfo.name}} /></p>
-                <p><input type = "text" email = {{session.userinfo.email}} /></p>
-                <p><input type = "submit" value = "submit"/</p>
-        </form>
-
   <header>
       <nav id="n1">
-        <img id="logo" src="Images/LogoMK.jpg" width="170" height="85"> &nbsp;&nbsp;
 	 <a href="/">home</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
 
-	<form method = "post"action = "/Like">
-		{{form.hidden_tag()}}
-		<fieldset class = "form-group">
-			<legend> Join Today</legend>
-			<div class = "form-group">
-			
-				{{form.title.label(class = "form-control form-control-label") }} 
-				 {{form.title(class = "form-control form-control-lg") }}
-			</div>
-			</fieldset>	
-		<p>Name:</p>
-		<p>Email:</p>
-		<p><input type = "text" name = {{session.userinfo.name}} /></p>
-		<p><input type = "text" email = {{session.userinfo.email}} /></p>
-		<p><input type = "submit" value = "submit"</p>
-	</form>
-	<h1>Welcome {{session.userinfo.name}}!</h1>
-	<p><input type="submit" value = "Like" /></p>
-
+	<h1> NEWS ARTICLES </h1>
 	{% for x in range(0,30)%}
 	<table style = "width :100%">
 	<tr>
@@ -85,8 +51,6 @@
       </nav>
   </header>
   <div id="contactform">
-<h1> HackerNews login</h1>
-<a href="database.html">Database</a> &nbsp;&nbsp;
 </div>
 </body>
 </html>
