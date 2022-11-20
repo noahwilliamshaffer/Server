@@ -377,6 +377,18 @@ def disliked():
         BIGGEST = BIGGER['userinfo']
         EMAIL = BIGGEST['email']
         name ="Working"
+        U = request.form["U"]
+        connection = sqlite3.connect('database.db')
+    #do we do this one or sqlite3.Row???
+        with open('artSchema.sql') as b:
+            connection.executescript(b.read())
+            cur = connection.cursor()
+        cur.execute('''UPDATE items SET DL = ? WHERE title = ?''', (U, title))
+        #cur.execute(f"UPDATE items SET DL ='{U}' WHERE title = {title}")
+        #cur.execute("UPDATE items SET DL = ? where title = ? VALUES (?, ?)", (U, title))
+        #cur.execute("INSERT  OR IGNORE INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
+        connection.commit()
+        connection.close()    
         FillDislikedArt(name, EMAIL, title, url)
     form = AddLike()
     Email = "Admin2@gmail.com"
@@ -411,6 +423,19 @@ def liked():
         BIGGEST = BIGGER['userinfo']
         EMAIL = BIGGEST['email']
         name ="Working"
+        U = request.form["U"]
+        connection = sqlite3.connect('database.db')
+    #do we do this one or sqlite3.Row???
+        with open('artSchema.sql') as b:
+            connection.executescript(b.read())
+            cur = connection.cursor()
+        cur.execute('''UPDATE items SET DL = ? WHERE title = ?''', (U, title))
+        #cur.execute("INSERT OR IGNORE INTO items (?) where title = (?) VALUES (?)",
+        #(U,))
+        connection.commit()
+        connection.close()    
+        FillDislikedArt(name, EMAIL, title, url)
+
         FillLikedArt(name, EMAIL, title, url)
     form = AddLike()
     Email = "Admin2@gmail.com"
