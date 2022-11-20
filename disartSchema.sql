@@ -1,5 +1,3 @@
---DROP TABLE IF EXISTS items;
-
 CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     list_id NOT NULL,
@@ -8,4 +6,4 @@ CREATE TABLE IF NOT EXISTS items (
     title TEXT NOT NULL,
     url TEXT NOT NULL,
     FOREIGN KEY (list_id) REFERENCES usr (id)
-); 
+);
