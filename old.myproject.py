@@ -566,4 +566,3 @@ def show_top_ten():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
