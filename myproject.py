@@ -1,13 +1,12 @@
 # 📁 server.py -----
 import sqlite3
-import requests
-import http.client
+#import http.client
 import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
+import requests
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Length, email, EqualTo
+from wtforms import StringField, SubmitField
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for, request
@@ -16,9 +15,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # from flask import Flask
 
 
-ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
+env_file = find_dotenv()
+if env_file:
+    load_dotenv(env_file)
 
 app = Flask(__name__)
 app.secret_key = env.get("APP_SECRET_KEY")
@@ -28,7 +27,7 @@ oauth = OAuth(app)
 app.config["SECRET_KEY"] = "BINGBONG"
 
 
-class AddLike(FlaskForm):
+class add_like(FlaskForm):
     title = StringField("Title")
     email = StringField("Email")
     url = StringField("url")
@@ -36,7 +35,7 @@ class AddLike(FlaskForm):
     submit = SubmitField("Like")
 
 
-class RemoveLike(FlaskForm):
+class remove_like_form(FlaskForm):
     url = StringField("url")
     submit = SubmitField("Remove")
 
@@ -50,12 +49,14 @@ oauth.register(
     },
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
+
+
 # Repull the articles every hour
 
 # clear the liked and disliked articles every 24
 
 
-def ClearAndFIllArticleDatabase():
+def clear_and_fill_article_databases():
     connection = sqlite3.connect("database.db")
 
     with open("schema.sql") as f:
@@ -69,7 +70,7 @@ def ClearAndFIllArticleDatabase():
     FillDataBase()
 
 
-def ClearLikedArt():
+def clear_liked_art():
     connection = sqlite3.connect("likedArticles.db")
 
     cur = connection.cursor()
@@ -78,7 +79,7 @@ def ClearLikedArt():
     connection.close()
 
 
-def ClearDislikedArt():
+def clear_disliked_art():
     connection = sqlite3.connect("likedArticles.db")
 
     cur = connection.cursor()
@@ -93,10 +94,11 @@ def sensor():
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(ClearLikedArt, "interval", minutes=60)
-sched.add_job(ClearDislikedArt, "interval", minutes=60)
-sched.add_job(ClearAndFIllArticleDatabase, "interval", hours=24)
+sched.add_job(clear_liked_art, "interval", minutes=60)
+sched.add_job(clear_disliked_art, "interval", minutes=60)
+sched.add_job(clear_and_fill_article_databases, "interval", hours=24)
 sched.start()
+
 
 # get_db_connection is used to make a connection to the database to be able to pull data
 # THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
@@ -111,7 +113,7 @@ Admins.append("noahwilliamshaffer@gmail.com")
 Admins.append("mmk20a@fsu.edu")
 
 
-def RemoveLikedArt(url_):
+def remove_liked_art(url_):
     # liked articles unique to each user
     connection = sqlite3.connect("likedArticles.db")
 
@@ -122,10 +124,10 @@ def RemoveLikedArt(url_):
 
 
 Url = "Url2"
-RemoveLikedArt(Url)
+remove_liked_art(Url)
 
 
-def FillUserEmail(email):
+def fill_user_email(email):
     connection = sqlite3.connect("users.db")
     cur = connection.cursor()
     cur.execute("INSERT OR IGNORE INTO users (email) VALUES (?)", (email,))
@@ -133,7 +135,7 @@ def FillUserEmail(email):
     connection.close()
 
 
-def initLikedArt():
+def init_liked_art():
     connection = sqlite3.connect("likedArticles.db")
     # do we do this one or sqlite3.Row???
     with open("artSchema.sql") as b:
@@ -144,10 +146,10 @@ def initLikedArt():
     connection.close()
 
 
-initLikedArt()
+init_liked_art()
 
 
-def initDisikedArt():
+def init_disiked_art():
     connection = sqlite3.connect("dislikedArticles.db")
     # do we do this one or sqlite3.Row???
     with open("disArtSchema.sql") as b:
@@ -158,10 +160,10 @@ def initDisikedArt():
     connection.close()
 
 
-initLikedArt()
+init_liked_art()
 
 
-def FillDislikedArt(name, email, title, url):
+def fill_disliked_art(name, email, title, url):
     # liked articles unique to each user
     connection = sqlite3.connect("dislikedArticles.db")
     # do we do this one or sqlite3.Row???
@@ -176,7 +178,7 @@ def FillDislikedArt(name, email, title, url):
     connection.close()
 
 
-def FillLikedArt(name, email, title, url):
+def fill_liked_art(name, email, title, url):
     # liked articles unique to each user
     connection = sqlite3.connect("likedArticles.db")
     with open("artSchema.sql") as b:
@@ -190,7 +192,7 @@ def FillLikedArt(name, email, title, url):
     connection.close()
 
 
-def FillDataBase():
+def fill_data_base():
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     )
@@ -219,13 +221,13 @@ def FillDataBase():
 
 
 @app.route("/removeDislike", methods=["GET", "POST"])
-def removeDislike():
-    ID = request.form.get("id")
+def remove_dislike():
+    i_d = request.form.get("id")
     con = sqlite3.connect("dislikedArticles.db")
-    cursor = con.execute("DELETE FROM items WHERE id = " + ID + ";")
+    cursor = con.execute("DELETE FROM items WHERE id = " + id + ";")
     con.commit()
     cursor = con.execute("SELECT id, email, title, url FROM items")
-    Ditems = cursor.fetchall()
+    d_items = cursor.fetchall()
     cursor.close()
 
     Email = request.form.get("email")
@@ -234,54 +236,54 @@ def removeDislike():
     items = cursor.fetchall()
     cursor.close()
 
-    BIG = json.dumps(session.get("user"))
-    BIGGER = json.loads(BIG)
-    BIGGEST = BIGGER["userinfo"]
-    EMAIL = BIGGEST["email"]
-    if EMAIL in Admins:
+    big = json.dumps(session.get("user"))
+    bigger = json.loads(big)
+    biggest = bigger["userinfo"]
+    e_mail = biggest["email"]
+    if e_mail in Admins:
         return render_template(
             "UserProfiles.html",
-            email=EMAIL,
+            email=e_mail,
             items=items,
-            Ditems=Ditems,
+            Ditems=d_items,
             session=session.get("user"),
             pretty=json.dumps(session.get("user"), indent=4),
         )
 
 
 @app.route("/removeLike", methods=["GET", "POST"])
-def removeLike():
-    ID = request.form.get("id")
+def remove_like():
+    i_d = request.form.get("id")
     con = sqlite3.connect("likedArticles.db")
-    cursor = con.execute("DELETE FROM items WHERE id = " + ID + ";")
+    cursor = con.execute("DELETE FROM items WHERE id = " + i_d + ";")
     con.commit()
     cursor = con.execute("SELECT id, email, title, url FROM items")
     items = cursor.fetchall()
     cursor.close()
 
-    Email = request.form.get("email")
+    emai_l = request.form.get("email")
     dcon = sqlite3.connect("dislikedArticles.db")
     cursor = dcon.execute("SELECT id, email,title, url FROM items")
-    Ditems = cursor.fetchall()
+    d_items = cursor.fetchall()
     cursor.close()
 
-    BIG = json.dumps(session.get("user"))
-    BIGGER = json.loads(BIG)
-    BIGGEST = BIGGER["userinfo"]
-    EMAIL = BIGGEST["email"]
-    if EMAIL in Admins:
+    bi_g = json.dumps(session.get("user"))
+    bigge_r = json.loads(bi_g)
+    bigges_t = bigge_r["userinfo"]
+    e_mail = bigges_t["email"]
+    if e_mail in Admins:
         return render_template(
             "UserProfiles.html",
-            email=Email,
+            email=emai_l,
             items=items,
-            Ditems=Ditems,
+            Ditems=d_items,
             session=session.get("user"),
             pretty=json.dumps(session.get("user"), indent=4),
         )
 
 
 @app.route("/UserProfiles", methods=["GET", "POST"])
-def UserProfiles():
+def user_profiles():
     Email = request.form.get("email")
     con = sqlite3.connect("likedArticles.db")
     cursor = con.execute("SELECT id, email, title, url FROM items")
@@ -291,19 +293,19 @@ def UserProfiles():
     Email = request.form.get("email")
     dcon = sqlite3.connect("dislikedArticles.db")
     cursor = dcon.execute("SELECT id, email,title, url FROM items")
-    Ditems = cursor.fetchall()
+    d_items = cursor.fetchall()
     cursor.close()
 
-    BIG = json.dumps(session.get("user"))
-    BIGGER = json.loads(BIG)
-    BIGGEST = BIGGER["userinfo"]
-    EMAIL = BIGGEST["email"]
-    if EMAIL in Admins:
+    big = json.dumps(session.get("user"))
+    bigger = json.loads(big)
+    biggest = bigger["userinfo"]
+    e_mail = biggest["email"]
+    if e_mail in Admins:
         return render_template(
             "UserProfiles.html",
             email=Email,
             items=items,
-            Ditems=Ditems,
+            Ditems=d_items,
             session=session.get("user"),
             pretty=json.dumps(session.get("user"), indent=4),
         )
@@ -348,13 +350,13 @@ def callback():
     # FillDataBase() -------------------------------------------------------------------------------------------------------------------------------------
     print("user")
     # Email = "yes@gmail.com"
-    BIG = json.dumps(session.get("user"))
-    BIGGER = json.loads(BIG)
-    BIGGEST = BIGGER["userinfo"]
-    EMAIL = BIGGEST["email"]
+    big = json.dumps(session.get("user"))
+    bigger = json.loads(big)
+    biggest = bigger["userinfo"]
+    e_mail = biggest["email"]
 
     # add user email here
-    FillUserEmail(EMAIL)
+    FillUserEmail(e_mail)
     # FillUserEmail(Email)
     return redirect("/")
 
@@ -402,7 +404,7 @@ def Admin():
 
 
 @app.route("/Profile", methods=["GET", "POST"])  # Add a post request
-def Profile():
+def profile():
     return render_template(
         "Profile.html",
         session=session.get("user"),
@@ -430,16 +432,16 @@ def disliked():
         # name = request.form.get("name")
 
         # SET NAME AND EMAIL PYTHON SIDE
-        BIG = json.dumps(session.get("user"))
-        BIGGER = json.loads(BIG)
-        BIGGEST = BIGGER["userinfo"]
-        EMAIL = BIGGEST["email"]
+        big = json.dumps(session.get("user"))
+        bigger = json.loads(big)
+        biggest = bigger["userinfo"]
+        e_mail = biggest["email"]
         name = "Working"
-        FillDislikedArt(name, EMAIL, title, url)
-    form = AddLike()
-    Email = "Admin2@gmail.com"
-    Title = "Title"
-    Url = "Url"
+        FillDislikedArt(name, e_mail, title, url)
+    form = add_like()
+    #Email = "Admin2@gmail.com"
+    #Title = "Title"
+    # Url = "Url"
     titles_arr = []
     urls_arr = []
     conn = get_db_connection()
@@ -472,16 +474,16 @@ def liked():
         # getting input with name = lname in HTML form
         url = request.form["url"]
 
-        BIG = json.dumps(session.get("user"))
-        BIGGER = json.loads(BIG)
-        BIGGEST = BIGGER["userinfo"]
-        EMAIL = BIGGEST["email"]
+        big = json.dumps(session.get("user"))
+        bigger = json.loads(big)
+        biggest = bigger["userinfo"]
+        e_mail = biggest["email"]
         name = "Working"
-        FillLikedArt(name, EMAIL, title, url)
-    form = AddLike()
-    Email = "Admin2@gmail.com"
-    Title = "Title"
-    Url = "Url"
+        FillLikedArt(name, e_mail, title, url)
+    form = add_like()
+    #Email = "Admin2@gmail.com"
+    #Title = "Title"
+    #Url = "Url"
     titles_arr = []
     urls_arr = []
     conn = get_db_connection()
@@ -505,10 +507,10 @@ def liked():
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news", methods=["GET", "POST"])
 def show_top_ten():
-    form = AddLike()
-    Email = "Admin2@gmail.com"
-    Title = "Title"
-    Url = "Url"
+    form = add_like()
+    #Email = "Admin2@gmail.com"
+    # Title = "Title"
+    #Url = "Url"
     titles_arr = []
     urls_arr = []
     conn = get_db_connection()
@@ -566,4 +568,3 @@ def show_top_ten():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
