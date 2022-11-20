@@ -13,7 +13,27 @@
       <nav id="n1">
 	 <a href="/">home</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
-        <button id = "Like"> Like</button>
+
+        <button type="button" onclick="dislikefunc()" id="dislike" >Click here!</button>
+
+	<button type="button" onclick="func()" id="like" >Click here!</button>
+         <script>
+  	      function func()
+                {
+           
+        	    document.getElementById("like").style.backgroundcolor="white";
+       		    document.getElementById("like").style.color="red";
+
+                } 
+		function dislikefunc()
+		{
+		  document.getElementById("dislike").style.backgroundcolor="white";
+                  document.getElementById("dislike").style.color="green";
+                }
+
+        </script>
+
+ 
 	<h1> NEWS ARTICLES </h1>
 	{% for x in range(0,30)%}
 	<table style = "width :100%">
@@ -28,8 +48,14 @@
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
 	    <input type ="hidden" value ="LIKED" name = "U">
-            <input type="submit" name="like"  value="like">
+            <input type="hidden" name="like"  value="like">
         </form>
+
+	<button id = "{{titles_arr}}" class ="like" onclick="dislikefunc()"  type = "submit" name = "like" form ="{{titles_arr}}">
+	 <input type="submit" name="like"  value="like">
+        </button>
+
+
 	</td>
 	<td>
 	<form id = "{{urls_arr}}" class "grid" action ="/disliked" method = "POST">
@@ -38,14 +64,37 @@
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
 	    <input type ="hidden" value ="LIKED" name = "U">
-            <input type="submit" name="dislike"  value="dislike">
+            <input type="hidden" name="dislike"  value="dislike">
         </form>
+
+	<button id = "{{urls_arr}}" class ="dislike"onclick="func()" type = "submit" name = "dislike" form ="{{urls_arr}}">
+	 <input type="submit" name="dislike"  value="dislike">
+        </button>
+
+
 	</td>
 
 	</tr>
 	 </table>
+	 <script>
+              function func()
+                {
+
+                    document.getElementById("{{titles_arr}}").style.backgroundcolor="white";
+                    document.getElementById("{{titles_arr}}").style.color="red";
+
+                }
+                function dislikefunc()
+                {
+                  document.getElementById("{{urls_arr}}").style.backgroundcolor="white";
+                  document.getElementById("{{urls_arr}}").style.color="green";
+                }
+
+        </script>
        	 	 {% endfor%}
       </nav>
+
+
 
    
       </nav>

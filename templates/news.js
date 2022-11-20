@@ -2,8 +2,8 @@ const Like = document.getElementById('Like');
 const Dislike = document.getElementById('Dislike');
 
 Like.addEventListener('click', function onClick() {
-  btn.style.backgroundColor = 'green';
-  btn.style.color = 'white';
+  Like.style.backgroundColor = 'salmon';
+  Like.style.color = 'white';
 });
 
 
