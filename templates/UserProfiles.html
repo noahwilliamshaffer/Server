@@ -1,48 +1,25 @@
-<!DOCTYPE html>
-<!--latest update 09/29/22-->
-<html lang="en-US">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="Style.css">
-  <title>HACKER NEWS</title>
-</head>
-<body style="background-color:#f5f5f5">
-  <header>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Auth0 Example</title>
+  </head>
+  <body>
+    {% if session %}
+        <h1>Welcome Admin {{session.userinfo.name}}!</h1>
+          <header>
       <nav id="n1">
         <img id="logo" src="Images/LogoMK.jpg" width="170" height="85"> &nbsp;&nbsp;
+        <a href="https://www.noahwilliamshaffer.com/Liked">View user Profiles</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp;
-        <h1>Welcome Admin{{session.userinfo.name}}!</h1>
-	 <h1>User Profiles</h1>
-	<h1>LIKES</h1>
-	{% for item in items %}
-<tr>
-	<td> ID: {{item[0]}} EMAIL: {{item[1]}} TITLE: {{item[2]}} URL: {{item[3]}} <form class "grid" action ="/removeLike" method = "POST">
-         <center>
-        </center>
-        <input type="hidden" value="{{item[0]}}" name="id">
-	<input type="submit" name="DELETE"  value="DELETE">
-        </form> </td>
-</td>
-{% endfor %}
-
-	<h1>DISLIKES</h1>
-	{% for Ditem in Ditems %}
-<tr>
-        <td> ID: {{Ditem[0]}} EMAIL: {{Ditem[1]}} TITLE: {{Ditem[2]}} URL: {{Ditem[3]}} <form class "grid" action ="/removeDislike" method = "POST">
-         <center>
-        </center>
-        <input type="hidden" value="{{Ditem[0]}}" name="id">
-        <input type="submit" name="DELETE"  value="DELETE">
-        </form> </td>
-</td>
-{% endfor %}
-      </nav>   
       </nav>
   </header>
   <div id="contactform">
-<h1> HackerNews login</h1>
-<a href="database.html">Database</a> &nbsp;&nbsp;
+<h1> UserProfiles</h1>
 </div>
-</body>
+        <p><a href="/logout">Logout</a></p>
+    {% else %}
+        <h1>Welcome Guest</h1>
+        <p><a href="/login">Login</a></p>
+    {% endif %}
+  </body>
 </html>
