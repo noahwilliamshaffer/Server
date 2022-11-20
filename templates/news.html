@@ -10,7 +10,7 @@
   <title>Hacker News</title>
 </head>
 <body style="background-color:#f5f5f5">
-<script src="news.js"></script>
+
 
   <header>
       <nav id="n1">
@@ -18,17 +18,26 @@
 	 <a href="/">home</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
 
-	<form method = "post"action = "/Like">
-		{{form.hidden_tag()}}
-		<fieldset class = "form-group">
-			<legend> Join Today</legend>
-			<div class = "form-group">
-			
-				{{form.title.label(class = "form-control form-control-label") }} 
-				 {{form.title(class = "form-control form-control-lg") }}
-			</div>
-			</fieldset>	
 	<h1>Welcome {{session.userinfo.name}}!</h1>
+
+        <button type="button" onclick="dislikefunc()" id="dislike" >Click here!</button>
+
+        <button type="button" onclick="func()" id="like" >Click here!</button>
+         <script>
+              function func()
+                {
+           
+                    document.getElementById("like").style.backgroundcolor="white";
+                    document.getElementById("like").style.color="red";
+
+                } 
+                function dislikefunc()
+                {
+                  document.getElementById("dislike").style.backgroundcolor="white";
+                  document.getElementById("dislike").style.color="green";
+                }
+
+        </script>
 
 	{% for x in range(0,30)%}
 	<table style = "width :100%">
