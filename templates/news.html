@@ -1,44 +1,23 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <!--latest update 09/29/22-->
 <html lang="en-US">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-  <!--<link rel="stylesheet" type="text/css" href="Style.css">-->
-  <title>Hacker News</title>
+  <link rel="stylesheet" type="text/css" href="Style.css">
+   <script  src="news.js"></script>
+  <title>HACKER NEWS</title>
 </head>
 <body style="background-color:#f5f5f5">
-
-
   <header>
       <nav id="n1">
-        <img id="logo" src="Images/LogoMK.jpg" width="170" height="85"> &nbsp;&nbsp;
 	 <a href="/">home</a> &nbsp;&nbsp;
         <a href="https://www.noahwilliamshaffer.com/logout">log out</a> &nbsp;&nbsp; 
 
-	<h1>Welcome {{session.userinfo.name}}!</h1>
+       
 
-        <button type="button" onclick="dislikefunc()" id="dislike" >Click here!</button>
-
-        <button type="button" onclick="func()" id="like" >Click here!</button>
-         <script>
-              function func()
-                {
-           
-                    document.getElementById("like").style.backgroundcolor="white";
-                    document.getElementById("like").style.color="red";
-
-                } 
-                function dislikefunc()
-                {
-                  document.getElementById("dislike").style.backgroundcolor="white";
-                  document.getElementById("dislike").style.color="green";
-                }
-
-        </script>
-
+ 
+	<h1> NEWS ARTICLES </h1>
 	{% for x in range(0,30)%}
 	<table style = "width :100%">
 	<tr>
@@ -51,12 +30,15 @@
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
+	    <input type ="hidden" value ="LIKED" name = "U">
             <input type="hidden" name="like"  value="like">
         </form>
 
-        <button class ="like" type = "submit" name = "like" form ="{{titles_arr}}">
-	<img src="/pix/web_graphics/free_website_graphics/icons/books/book13.gif"
+	<button id = "{{titles_arr}}" class ="like" onclick="dislikefunc()"  type = "submit" name = "like" form ="{{titles_arr}}">
+	 <input type="submit" name="like"  value="like">
         </button>
+
+
 	</td>
 	<td>
 	<form id = "{{urls_arr}}" class "grid" action ="/disliked" method = "POST">
@@ -64,25 +46,45 @@
             <input type="hidden" value={{urls_arr[x]}} name="url">
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
+	    <input type ="hidden" value ="LIKED" name = "U">
             <input type="hidden" name="dislike"  value="dislike">
         </form>
 
-	<button class ="dislike" type = "submit" name = "dislike" form ="{{urls_arr}}">
-	<img src="/pix/web_graphics/free_website_graphics/icons/books/book13.gif"
+	<button id = "{{urls_arr}}" class ="dislike"onclick="func()" type = "submit" name = "dislike" form ="{{urls_arr}}">
+	 <input type="submit" name="dislike"  value="dislike">
         </button>
+
+
 	</td>
 
 	</tr>
 	 </table>
+	 <script>
+              function func()
+                {
+
+                    document.getElementById("{{titles_arr}}").style.backgroundcolor="white";
+                    document.getElementById("{{titles_arr}}").style.color="red";
+
+                }
+                function dislikefunc()
+                {
+                  document.getElementById("{{urls_arr}}").style.backgroundcolor="white";
+                  document.getElementById("{{urls_arr}}").style.color="green";
+                }
+
+        </script>
        	 	 {% endfor%}
       </nav>
+
+
 
    
       </nav>
   </header>
   <div id="contactform">
-<h1> HackerNews login</h1>
-<a href="database.html">Database</a> &nbsp;&nbsp;
 </div>
 </body>
 </html>
+
+
