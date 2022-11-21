@@ -1,4 +1,5 @@
 # 📁 server.py -----
+'''This is the server file.'''
 import sqlite3
 
 # import http.client
@@ -63,8 +64,8 @@ def clear_and_fill_article_databases():
     """This clears and fills the article databases."""
     connection = sqlite3.connect("database.db")
 
-    with open("schema.sql") as f:
-        connection.executescript(f.read())
+    with open("schema.sql") as f_var:
+        connection.executescript(f_var.read())
         cur = connection.cursor()
 
     cur.execute("DELETE FROM  Art")
@@ -75,6 +76,7 @@ def clear_and_fill_article_databases():
 
 
 def clear_liked_art():
+    """This clears the liked art database."""
     connection = sqlite3.connect("likedArticles.db")
 
     cur = connection.cursor()
@@ -84,6 +86,7 @@ def clear_liked_art():
 
 
 def clear_disliked_art():
+    """This clears the disliked art database."""
     connection = sqlite3.connect("likedArticles.db")
 
     cur = connection.cursor()
@@ -107,18 +110,21 @@ sched.start()
 # get_db_connection is used to make a connection to the database to be able to pull data
 # THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
 def get_db_connection():
+    """This gets a database connection."""
     conn = sqlite3.connect("database.db")
     return conn
 
+
 # should be called everytime a user likes a post
-Admins = []
-Admins.append("noahwilliamshaffer@gmail.com")
-Admins.append("mmk20a@fsu.edu")
-Admins.append("chashimahiulislam@gmail.com")
+Admins = [
+    "noahwilliamshaffer@gmail.com",
+    "mmk20a@fsu.edu",
+    "chashimahiulislam@gmail.com",
+]
 
 # def remove_liked_art(url_):
 def remove_liked_art():
-    '''This removes liked art from the database.'''
+    """This removes liked art from the database."""
     # liked articles unique to each user
     connection = sqlite3.connect("likedArticles.db")
 
@@ -127,11 +133,14 @@ def remove_liked_art():
     connection.commit()
     connection.close()
 
+
 URL = "Url2"
-remove_liked_art(URL)
+# remove_liked_art(URL)
+remove_liked_art()
+
 
 def fill_user_email(email):
-    '''This puts the user email in the database.'''
+    """This puts the user email in the database."""
     connection = sqlite3.connect("users.db")
     cur = connection.cursor()
     cur.execute("INSERT OR IGNORE INTO users (email) VALUES (?)", (email,))
@@ -222,8 +231,8 @@ def fill_data_base():
     get_db_connection()
     connection = sqlite3.connect("database.db")
 
-    with open("schema.sql") as f:
-        connection.executescript(f.read())
+    with open("schema.sql") as f_var:
+        connection.executescript(f_var.read())
         cur = connection.cursor()
 
     for x_var in range(0, 30):
@@ -238,6 +247,7 @@ def fill_data_base():
 
 @app.route("/removeDislike", methods=["GET", "POST"])
 def remove_dislike():
+    """This removes a dislike from a post in the database."""
     # i_d = request.form.get("id")
     con = sqlite3.connect("dislikedArticles.db")
     cursor = con.execute("DELETE FROM items WHERE id = " + id + ";")
