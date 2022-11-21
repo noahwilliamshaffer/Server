@@ -134,9 +134,9 @@ def remove_liked_art(url_):
     connection.close()
 
 
-URL = "Url2"
-# remove_liked_art(URL)
-remove_liked_art()
+Url = "Url2"
+remove_liked_art(Url)
+#remove_liked_art()
 
 
 def fill_user_email(email):
