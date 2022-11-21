@@ -122,8 +122,8 @@ Admins = [
     "chashimahiulislam@gmail.com",
 ]
 
-# def remove_liked_art(url_):
-def remove_liked_art():
+def remove_liked_art(url_):
+#def remove_liked_art():
     """This removes liked art from the database."""
     # liked articles unique to each user
     connection = sqlite3.connect("likedArticles.db")
