@@ -114,7 +114,7 @@ def get_db_connection():
 Admins = []
 Admins.append("noahwilliamshaffer@gmail.com")
 Admins.append("mmk20a@fsu.edu")
-Admis.append("chashimahiulislam@gmail.com")
+Admins.append("chashimahiulislam@gmail.com")
 
 # def remove_liked_art(url_):
 def remove_liked_art():
