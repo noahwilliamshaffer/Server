@@ -1,6 +1,7 @@
 # 📁 server.py -----
 import sqlite3
-#import http.client
+
+# import http.client
 import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
@@ -27,7 +28,9 @@ oauth = OAuth(app)
 app.config["SECRET_KEY"] = "BINGBONG"
 
 
-class add_like(FlaskForm):
+class AddLike(FlaskForm):
+    """class for adding likes"""
+
     title = StringField("Title")
     email = StringField("Email")
     url = StringField("url")
@@ -35,7 +38,9 @@ class add_like(FlaskForm):
     submit = SubmitField("Like")
 
 
-class remove_like_form(FlaskForm):
+class RemoveLikeForm(FlaskForm):
+    """ removes likes class"""
+
     url = StringField("url")
     submit = SubmitField("Remove")
 
@@ -44,9 +49,7 @@ oauth.register(
     "auth0",
     client_id=env.get("AUTH0_CLIENT_ID"),
     client_secret=env.get("AUTH0_CLIENT_SECRET"),
-    client_kwargs={
-        "scope": "openid profile email",
-    },
+    client_kwargs={"scope": "openid profile email",},
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
@@ -57,6 +60,7 @@ oauth.register(
 
 
 def clear_and_fill_article_databases():
+    """This clears and fills the article databases."""
     connection = sqlite3.connect("database.db")
 
     with open("schema.sql") as f:
@@ -67,7 +71,7 @@ def clear_and_fill_article_databases():
 
     connection.commit()
     connection.close()
-    FillDataBase()
+    fill_data_base()
 
 
 def clear_liked_art():
@@ -106,14 +110,15 @@ def get_db_connection():
     conn = sqlite3.connect("database.db")
     return conn
 
-
 # should be called everytime a user likes a post
 Admins = []
 Admins.append("noahwilliamshaffer@gmail.com")
 Admins.append("mmk20a@fsu.edu")
+Admis.append("chashimahiulislam@gmail.com")
 
-
-def remove_liked_art(url_):
+# def remove_liked_art(url_):
+def remove_liked_art():
+    '''This removes liked art from the database.'''
     # liked articles unique to each user
     connection = sqlite3.connect("likedArticles.db")
 
@@ -122,12 +127,11 @@ def remove_liked_art(url_):
     connection.commit()
     connection.close()
 
-
-Url = "Url2"
-remove_liked_art(Url)
-
+URL = "Url2"
+remove_liked_art(URL)
 
 def fill_user_email(email):
+    '''This puts the user email in the database.'''
     connection = sqlite3.connect("users.db")
     cur = connection.cursor()
     cur.execute("INSERT OR IGNORE INTO users (email) VALUES (?)", (email,))
@@ -136,11 +140,13 @@ def fill_user_email(email):
 
 
 def init_liked_art():
+    """This inits the liked art database."""
     connection = sqlite3.connect("likedArticles.db")
     # do we do this one or sqlite3.Row???
-    with open("artSchema.sql") as b:
-        connection.executescript(b.read())
-        cur = connection.cursor()
+    with open("artSchema.sql") as b_var:
+        connection.executescript(b_var.read())
+        # cur = connection.cursor()
+        connection.cursor()
 
     connection.commit()
     connection.close()
@@ -150,11 +156,13 @@ init_liked_art()
 
 
 def init_disiked_art():
+    """This inits the disliked art database."""
     connection = sqlite3.connect("dislikedArticles.db")
     # do we do this one or sqlite3.Row???
-    with open("disArtSchema.sql") as b:
-        connection.executescript(b.read())
-        cur = connection.cursor()
+    with open("disArtSchema.sql") as b_var:
+        connection.executescript(b_var.read())
+        # cur = connection.cursor()
+        connection.cursor()
 
     connection.commit()
     connection.close()
@@ -164,11 +172,12 @@ init_liked_art()
 
 
 def fill_disliked_art(name, email, title, url):
+    """This fills the disliked art database."""
     # liked articles unique to each user
     connection = sqlite3.connect("dislikedArticles.db")
     # do we do this one or sqlite3.Row???
-    with open("disartSchema.sql") as b:
-        connection.executescript(b.read())
+    with open("disartSchema.sql") as b_var:
+        connection.executescript(b_var.read())
         cur = connection.cursor()
     cur.execute(
         "INSERT  OR IGNORE INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
@@ -179,10 +188,11 @@ def fill_disliked_art(name, email, title, url):
 
 
 def fill_liked_art(name, email, title, url):
+    """This fills the liked art database."""
     # liked articles unique to each user
     connection = sqlite3.connect("likedArticles.db")
-    with open("artSchema.sql") as b:
-        connection.executescript(b.read())
+    with open("artSchema.sql") as b_var:
+        connection.executescript(b_var.read())
         cur = connection.cursor()
     cur.execute(
         "INSERT  OR IGNORE INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
@@ -193,27 +203,33 @@ def fill_liked_art(name, email, title, url):
 
 
 def fill_data_base():
+    """This fills the database."""
     response = requests.get(
         "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
     )
     link_titles = []  # the emptylist for titles
     link_url = []  # the empty list for url's of hackernews
     # for loop that loops through the ten articles and prints the x title over the x link
-    for x in range(0, 30):
-        link_string = f"https://hacker-news.firebaseio.com/v0/item/{response.json()[x]}.json?print=pretty"
+    for x_var in range(0, 30):
+        link_string = (
+            f"https://hacker-news.firebaseio.com/v0/item/"
+            f"{response.json()[x_var]}.json?print=pretty"
+        )
         link = requests.get(link_string).json()
         link_titles.append(link["title"])
         link_url.append(link["url"])
-    con = get_db_connection()
+    # con = get_db_connection()
+    get_db_connection()
     connection = sqlite3.connect("database.db")
 
     with open("schema.sql") as f:
         connection.executescript(f.read())
         cur = connection.cursor()
 
-    for x in range(0, 30):
+    for x_var in range(0, 30):
         cur.execute(
-            "INSERT INTO Art (title, url) VALUES (?, ?)", (link_titles[x], link_url[x])
+            "INSERT INTO Art (title, url) VALUES (?, ?)",
+            (link_titles[x_var], link_url[x_var]),
         )
 
     connection.commit()
@@ -222,7 +238,7 @@ def fill_data_base():
 
 @app.route("/removeDislike", methods=["GET", "POST"])
 def remove_dislike():
-    i_d = request.form.get("id")
+    # i_d = request.form.get("id")
     con = sqlite3.connect("dislikedArticles.db")
     cursor = con.execute("DELETE FROM items WHERE id = " + id + ";")
     con.commit()
@@ -230,7 +246,7 @@ def remove_dislike():
     d_items = cursor.fetchall()
     cursor.close()
 
-    Email = request.form.get("email")
+    # email = request.form.get("email")
     con = sqlite3.connect("likedArticles.db")
     cursor = con.execute("SELECT id, email, title, url FROM items")
     items = cursor.fetchall()
@@ -253,6 +269,7 @@ def remove_dislike():
 
 @app.route("/removeLike", methods=["GET", "POST"])
 def remove_like():
+    """This removes a like from a post."""
     i_d = request.form.get("id")
     con = sqlite3.connect("likedArticles.db")
     cursor = con.execute("DELETE FROM items WHERE id = " + i_d + ";")
@@ -284,13 +301,14 @@ def remove_like():
 
 @app.route("/UserProfiles", methods=["GET", "POST"])
 def user_profiles():
-    Email = request.form.get("email")
+    """This pulls the user profile data."""
+    email = request.form.get("email")
     con = sqlite3.connect("likedArticles.db")
     cursor = con.execute("SELECT id, email, title, url FROM items")
     items = cursor.fetchall()
     cursor.close()
 
-    Email = request.form.get("email")
+    email = request.form.get("email")
     dcon = sqlite3.connect("dislikedArticles.db")
     cursor = dcon.execute("SELECT id, email,title, url FROM items")
     d_items = cursor.fetchall()
@@ -303,7 +321,7 @@ def user_profiles():
     if e_mail in Admins:
         return render_template(
             "UserProfiles.html",
-            email=Email,
+            email=email,
             items=items,
             Ditems=d_items,
             session=session.get("user"),
@@ -317,10 +335,12 @@ def user_profiles():
         )
 
 
-# the index function contains the way to call the html file that will be using the data being heald in our database ex
+# the index function contains the way to call the
+# html file that will be using the data being heald in our database ex
 # APP ROUTE FUNCTION FOR DATABASE CODE EXSAMPLE
 @app.route("/database")
 def index():
+    """ sends information and runs database.html"""
     conn = get_db_connection()
     posts = conn.execute("SELECT * FROM Art").fetchall()
     conn.close()
@@ -329,7 +349,9 @@ def index():
 
 @app.route("/login")
 def login():
-    # return render_template("Login.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    """runs and authenticates login page"""
+    # return render_template("Login.html", session=session.get('user')
+    # , pretty=json.dumps(session.get('user'), indent=4))
     return oauth.auth0.authorize_redirect(
         redirect_uri=url_for("callback", _external=True)
     )
@@ -340,6 +362,7 @@ def login():
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
+    """ runs callback page and authenticates"""
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
     # session["email"] = token
@@ -347,7 +370,7 @@ def callback():
 
     # Delete the database every 24 hours
     # call this every hour
-    # FillDataBase() -------------------------------------------------------------------------------------------------------------------------------------
+    # FillDataBase()
     print("user")
     # Email = "yes@gmail.com"
     big = json.dumps(session.get("user"))
@@ -356,13 +379,14 @@ def callback():
     e_mail = biggest["email"]
 
     # add user email here
-    FillUserEmail(e_mail)
+    fill_user_email(e_mail)
     # FillUserEmail(Email)
     return redirect("/")
 
 
 @app.route("/logout")
 def logout():
+    """ runs logout page and deauthenticates"""
     session.clear()
     return redirect(
         "https://"
@@ -380,15 +404,16 @@ def logout():
 
 # median page distingush likes and disslikes baised on the email that was clicked
 @app.route("/Admin")
-def Admin():
-    EMAIL = "noahwilliamshaffer@gmail.com"
+def admin():
+    """ makes database for admin page"""
+    emai_l = "noahwilliamshaffer@gmail.com"
     # EMAIL = "noahwilliamshaffer"
     con = sqlite3.connect("users.db")
     cursor = con.execute("SELECT email, id, created  FROM users")
     items = cursor.fetchall()
     # return render_template('print_items.html', items=items)
     cursor.close()
-    if EMAIL in Admins:
+    if emai_l in Admins:
         return render_template(
             "Admin.html",
             items=items,
@@ -405,6 +430,7 @@ def Admin():
 
 @app.route("/Profile", methods=["GET", "POST"])  # Add a post request
 def profile():
+    """ runs profile page and authenticates user"""
     return render_template(
         "Profile.html",
         session=session.get("user"),
@@ -414,6 +440,7 @@ def profile():
 
 @app.route("/", methods=["GET", "POST"])  # Add a post request
 def home():
+    """ runs home page and authenticates user"""
     return render_template(
         "home.html",
         session=session.get("user"),
@@ -423,6 +450,7 @@ def home():
 
 @app.route("/disliked", methods=["GET", "POST"])
 def disliked():
+    """This pulls the disliked posts."""
     if request.method == "POST":
         # getting input with name = fname in HTML form
         title = request.form["title"]
@@ -437,11 +465,11 @@ def disliked():
         biggest = bigger["userinfo"]
         e_mail = biggest["email"]
         name = "Working"
-        FillDislikedArt(name, e_mail, title, url)
-    form = add_like()
-    #Email = "Admin2@gmail.com"
-    #Title = "Title"
-    # Url = "Url"
+        fill_disliked_art(name, e_mail, title, url)
+    form = AddLike()
+    # ema_il = "Admin2@gmail.com"
+    # t_itle = "Title"
+    # ur_l = "Url"
     titles_arr = []
     urls_arr = []
     conn = get_db_connection()
@@ -464,9 +492,11 @@ def disliked():
     )
 
 
-# stores it when an article is liked maybey get rig of the route becase this is deals with data may be a way to streemline.
+# stores it when an article is liked maybey get rig of the
+# route becase this is deals with data may be a way to streemline.
 @app.route("/liked", methods=["GET", "POST"])
 def liked():
+    """This pulls the liked posts."""
     if request.method == "POST":
         # getting input with name = fname in HTML form
         title = request.form["title"]
@@ -479,11 +509,11 @@ def liked():
         biggest = bigger["userinfo"]
         e_mail = biggest["email"]
         name = "Working"
-        FillLikedArt(name, e_mail, title, url)
-    form = add_like()
-    #Email = "Admin2@gmail.com"
-    #Title = "Title"
-    #Url = "Url"
+        fill_liked_art(name, e_mail, title, url)
+    form = AddLike()
+    # Email = "Admin2@gmail.com"
+    # Title = "Title"
+    # Url = "Url"
     titles_arr = []
     urls_arr = []
     conn = get_db_connection()
@@ -507,10 +537,11 @@ def liked():
 # 👆 We're continuing from the steps above. Append this to your server.py file.
 @app.route("/news", methods=["GET", "POST"])
 def show_top_ten():
-    form = add_like()
-    #Email = "Admin2@gmail.com"
+    """This shows the top ten results."""
+    form = AddLike()
+    # Email = "Admin2@gmail.com"
     # Title = "Title"
-    #Url = "Url"
+    # Url = "Url"
     titles_arr = []
     urls_arr = []
     conn = get_db_connection()
@@ -530,12 +561,15 @@ def show_top_ten():
     )
 
 
-# In this route, you pass the tuple ('GET', 'POST') to the methods parameter to allow both GET and POST requests.
+# In this route, you pass the tuple ('GET', 'POST') to the methods
+# parameter to allow both GET and POST requests.
 # GET requests are used to retrieve data from the server.
 # POST requests are used to post data to a specific route.
 # By default, only GET requests are allowed.
-# When the user first requests the /create route using a GET request, a template file called create.html will be rendered.
-# You will later edit this route to handle POST requests for when users fill and submit the web form for creating new posts.
+# When the user first requests the /create route using a GET request,
+# a template file called create.html will be rendered.
+# You will later edit this route to handle POST requests for when users fill
+# and submit the web form for creating new posts.
 # this is where we we pull from the database
 
 ##delete funct.
