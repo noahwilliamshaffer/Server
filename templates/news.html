@@ -50,15 +50,17 @@
             <input type="hidden" name="dislike"  value="dislike">
         </form>
 
-	<button id = "{{urls_arr}}" class ="dislike"onclick="func()" type = "submit" name = "dislike" form ="{{urls_arr}}">
-	 <input type="submit" name="dislike"  value="dislike">
-        </button>
+	<button type="button" id = "urls_arr" class ="dislike" onclick="func()" name = "dislike" form ="{{urls_arr}}">
+          <input type="submit" name="dislike"  value="dislike">    dislike
+	</button>
+
 
 
 	</td>
 
 	</tr>
 	 </table>
+		<button type="button" onclick="dislikefunc()" id="urls_arr" >Click here!</button>
 	 <script>
               function func()
                 {
@@ -69,12 +71,14 @@
                 }
                 function dislikefunc()
                 {
-                  document.getElementById("{{urls_arr}}").style.backgroundcolor="white";
-                  document.getElementById("{{urls_arr}}").style.color="green";
+                  document.getElementById("urls_arr").style.backgroundcolor="white";
+                  document.getElementById("urls_arr").style.color="green";
                 }
 
         </script>
-       	 	 {% endfor%}
+   
+	 <button type="button" onclick="dislikefunc()" id="urls_arr" >Click here!</button>
+	{% endfor%}
       </nav>
 
 
