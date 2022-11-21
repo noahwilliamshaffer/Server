@@ -1,0 +1,1 @@
+30 * * * * /usr/bin/python3 /home/marlee/ProjectFiles/ClearArticles.py >> tmp.txt 2>&1  
