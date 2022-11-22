@@ -31,12 +31,10 @@
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
 	    <input type ="hidden" value ="LIKED" name = "U">
-            <input type="hidden" name="like"  value="like">
+            <input type="submit" name="like"  value="like">
         </form>
 
-	<button id = "{{titles_arr[x]}}" class ="like" onclick="dislikefunc()"  type = "submit" name = "like" form ="{{titles_arr[x]}}">
-	 <input type="submit" name="like"  value="like">
-        </button>
+
 
 
 	</td>
@@ -47,34 +45,15 @@
             <input type="hidden" value=Welcome {{session.userinfo.name}}! name="name">
             <input type="hidden" value={{session.userinfo.email}} name="email">
 	    <input type ="hidden" value ="LIKED" name = "U">
-            <input type="hidden" name="dislike"  value="dislike">
+            <input type="submit" name="dislike"  value="dislike">
         </form>
-
-	<button id = "{{urls_arr[x]}}" class ="dislike" onclick="func()" type="submit" name = "dislike" form ="{{urls_arr[x]}}">
-          <input type="submit" name="dislike"  value="dislike">
-	</button>
 	
-
 
 	</td>
 
 	</tr>
 	 </table>
-	 <script>
-              function func()
-                {
 
-                    document.getElementById("{{titles_arr}}").style.backgroundcolor="white";
-                    document.getElementById("{{titles_arr}}").style.color="red";
-
-                }
-                function dislikefunc()
-                {
-		  document.getElementById("{{urls_arr}}").style.backgroundcolor="white";
-		  document.getElementById("{{urls_arr}}").style.color="green";
-                }
-
-        </script>
    
 	{% endfor%}
       </nav>

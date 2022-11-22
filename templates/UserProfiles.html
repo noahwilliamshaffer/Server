@@ -15,11 +15,10 @@
        	<h1>ADMIN PAGE</h1>
 	<h1>Welcome Admin {{session.userinfo.name}}!</h1>
 	 <h1>LIKED AND DISLIKED ARTICLES</h1>
-	<h1>LIKES</h1>
 	{% for item in items %}
 	<table style = "width :100%">
 <tr>
-	<td> ID: {{item[0]}} EMAIL: {{item[1]}} TITLE: {{item[2]}} URL: {{item[3]}}</td> 
+	<td> LIKED 	ID: {{item[0]}} EMAIL: {{item[1]}} TITLE: {{item[2]}} URL: {{item[3]}}</td> 
 
 	<td><form id = "{{item[0]}}" class "grid" action ="/removeLike" method = "POST">
          <center>
@@ -33,11 +32,15 @@
 
 {% endfor %}
 
-	<h1>DISLIKES</h1>
+
+
+
+
+
 	{% for Ditem in Ditems %}
 	<table style = "width :100%">
 <tr>
-        <td> ID: {{Ditem[0]}} EMAIL: {{Ditem[1]}} TITLE: {{Ditem[2]}} URL: {{Ditem[3]}}</td> 
+        <td> DISLIKED	ID: {{Ditem[0]}} EMAIL: {{Ditem[1]}} TITLE: {{Ditem[2]}} URL: {{Ditem[3]}}</td> 
 
 		<td><form id = "{{Ditem[1]}}" class "grid" action ="/removeDislike" method = "POST">
          <center>
