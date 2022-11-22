@@ -248,9 +248,9 @@ def fill_data_base():
 @app.route("/removeDislike", methods=["GET", "POST"])
 def remove_dislike():
     """This removes a dislike from a post in the database."""
-    # i_d = request.form.get("id")
+    i_d = request.form.get("id")
     con = sqlite3.connect("dislikedArticles.db")
-    cursor = con.execute("DELETE FROM items WHERE id = " + id + ";")
+    cursor = con.execute("DELETE FROM items WHERE id = " + i_d + ";")
     con.commit()
     cursor = con.execute("SELECT id, email, title, url FROM items")
     d_items = cursor.fetchall()
