@@ -14,7 +14,6 @@ from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for, request
 from apscheduler.schedulers.background import BackgroundScheduler
 
-# from flask import Flask
 
 
 env_file = find_dotenv()
