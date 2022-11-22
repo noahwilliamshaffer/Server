@@ -183,12 +183,21 @@ init_liked_art()
 
 def fill_disliked_art(name, email, title, url):
     """This fills the disliked art database."""
-    # liked articles unique to each user
+    connection = sqlite3.connect("likedArticles.db")
+    with open("artSchema.sql") as b_var:
+        connection.executescript(b_var.read())
+        cur = connection.cursor()
+    cur.execute("DELETE FROM items where email = ? and title = ?" , (email , title))
+    connection.commit()
+    connection.close()
+
+    # liked articles unique to each user #######################################
     connection = sqlite3.connect("dislikedArticles.db")
     # do we do this one or sqlite3.Row???
     with open("disartSchema.sql") as b_var:
         connection.executescript(b_var.read())
         cur = connection.cursor()
+    cur.execute("DELETE FROM items where email = ? and title = ?" , (email , title))
     cur.execute(
         "INSERT  OR IGNORE INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
         (name, email, title, url),
@@ -199,11 +208,20 @@ def fill_disliked_art(name, email, title, url):
 
 def fill_liked_art(name, email, title, url):
     """This fills the liked art database."""
-    # liked articles unique to each user
+    connection = sqlite3.connect("dislikedArticles.db")
+    with open("disartSchema.sql") as b_var:
+        connection.executescript(b_var.read())
+        cur = connection.cursor()
+    cur.execute("DELETE FROM items where email = ? and title = ?" , (email , title))
+    connection.commit()
+    connection.close()
+
+    # liked articles unique to each user #####################################################
     connection = sqlite3.connect("likedArticles.db")
     with open("artSchema.sql") as b_var:
         connection.executescript(b_var.read())
         cur = connection.cursor()
+        cur.execute("DELETE FROM items where email = ? and title = ?" , (email , title)) 
     cur.execute(
         "INSERT  OR IGNORE INTO items (list_id, email, title, url) VALUES (?, ?, ?, ?)",
         (name, email, title, url),
