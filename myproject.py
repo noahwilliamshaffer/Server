@@ -100,13 +100,6 @@ def sensor():
     print("Scheduler is alive!")
 
 
-#sched = BackgroundScheduler(daemon=True)
-#sched.add_job(clear_liked_art, "interval", minutes=60)
-#sched.add_job(clear_disliked_art, "interval", minutes=60)
-#sched.add_job(clear_and_fill_article_databases, "interval", hours=24)
-#sched.start()
-
-
 # get_db_connection is used to make a connection to the database to be able to pull data
 # THE DATABASE EXSAMPLE FOR SQLITE CODE ON DIDITAL OCEANS
 def get_db_connection():
@@ -590,44 +583,6 @@ def show_top_ten():
     )
 
 
-# In this route, you pass the tuple ('GET', 'POST') to the methods
-# parameter to allow both GET and POST requests.
-# GET requests are used to retrieve data from the server.
-# POST requests are used to post data to a specific route.
-# By default, only GET requests are allowed.
-# When the user first requests the /create route using a GET request,
-# a template file called create.html will be rendered.
-# You will later edit this route to handle POST requests for when users fill
-# and submit the web form for creating new posts.
-# this is where we we pull from the database
-
-##delete funct.
-##@app.route('/create/', methods=('GET', 'POST'))
-##def create():
-##  return render_template('create.html')
-
-##old function don't need most likely
-##@app.route("/oldnews")
-
-##def api():
-# are we sure this is supposed to be client?
-# class http.client.HTTPConnection(host, port=None, [timeout, ]source_address=None, blocksize=8192)¶
-# conn = http.client.HTTPSConnection("hacker-news.firebaseio.com")
-
-# payload = "{}"
-
-# HTTPConnection.request(method, url, body=None, headers={}, *, encode_chunked=False)
-# try this without payload parameter
-# show marlee definition for body param that we are sending the payload into
-# conn.request("GET", "/v0/topstories.json?print=pretty",payload)
-
-# Should be called after a request is sent to get the response from the server.
-# res = conn.getresponse()
-
-# Reads and returns the response body, or up to the next amt bytes.
-#  data = res.read()
-
-# print(data.decode("utf-8"))
 
 if __name__ == "__main__":
     app.run(debug=True)
