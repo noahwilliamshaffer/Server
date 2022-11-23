@@ -1,5 +1,6 @@
 # 📁 server.py -----
 '''This is the server file.'''
+#noah did this file
 import sqlite3
 
 # import http.client
